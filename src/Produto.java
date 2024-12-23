@@ -4,32 +4,12 @@ public class Produto {
     private String tipo;
     private float precoCompra;
     private float precoVenda;
-    private int quantidade;
 
-    public Produto(String n, float pCompra, float pVenda, int quant){
+    public Produto(String n, float pCompra, float pVenda){
         nome = n;
         desc = "Item sem descrição";
         precoCompra = pCompra;
         precoVenda = pVenda;
-        quantidade = quant;
-    }
-
-    public void adicionarItem(int quant){
-        if(quant < 0){
-            throw new RuntimeException("Adição de quantidade negativa");
-        }
-        else{
-            quantidade = quantidade + quant;
-        }
-    }
-
-    public void removerItem(int quant){
-        if(quant > quantidade){
-            throw new RuntimeException("Quantidade não disponível");
-        }
-        else{
-            quantidade = quantidade - quant;
-        }
     }
 
     public String getNome(){
@@ -52,10 +32,6 @@ public class Produto {
         return this.precoVenda;
     }
 
-    public int getQuantidade(){
-        return this.quantidade;
-    }
-
     public void setNome(String n){
         nome = n;
     }
@@ -76,10 +52,6 @@ public class Produto {
         precoVenda = p;
     }
 
-    public void setQuantidade(int q){
-        quantidade = q;
-    }
-
     @Override
     public String toString() {
         return "Produto{" +
@@ -88,7 +60,6 @@ public class Produto {
                 ", tipo='" + tipo + '\'' +
                 ", precoCompra=" + precoCompra +
                 ", precoVenda=" + precoVenda +
-                ", quantidade=" + quantidade +
                 '}';
     }
 }

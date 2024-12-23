@@ -1,44 +1,50 @@
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Estoque {
-    ArrayList<Produto> produtos;
+    private HashMap<Produto, Integer> estoque;
 
     Estoque(){
-        produtos = new ArrayList<>();
+        estoque = new HashMap<>();
     }
 
-    public ArrayList<Produto> getProdutos() {
-        return produtos;
+    public HashMap<Produto, Integer> getEstoque() {
+        return estoque;
     }
 
-    Produto buscarProduto(String nome){
-        for(Produto p : produtos){
-            if(p.getNome().equalsIgnoreCase(nome)){
+    public Produto buscarProduto(String nome){
+        for (Produto p : estoque.keySet()){
+            if(nome.equalsIgnoreCase(p.getNome())){
                 return p;
             }
         }
-
         return null;
     }
 
-    public void novoProduto(String nome, String desc, float pCompra, float pVenda, int quant){
-        Produto p = new Produto(nome,pCompra,pVenda,quant);
-        if(!desc.equalsIgnoreCase("")){
-            p.setDesc(desc);
+    public void adicionarProduto(Produto p, int quantidade) {
+        if (quantidade < 0) {
+            throw new IllegalArgumentException("Quantidade não pode ser negativa");
         }
-        produtos.add(p);
-        System.out.println("Novo produto adicionado:\n" + p);
-    }
-
-    public void removerProduto(String nome) throws RuntimeException{
-        for(Produto p : produtos){
-            if(p.getNome().equalsIgnoreCase(nome)){
-                produtos.remove(p);
-            }
-        }
-
-        throw new RuntimeException("Produto '" + nome + "' não encontrado");
+        // Se o produto já existe no estoque, soma a quantidade
+        estoque.put(p, estoque.getOrDefault(p, 0) + quantidade);
     }
 
 
+    public boolean removerProdutos(Produto p, int quantidade) throws RuntimeException {
+        if(!estoque.containsKey(p)){
+            return false;
+        }
+        int q = estoque.get(p);
+        if(q < quantidade){
+            throw new RuntimeException("Quantidade insuficiente do produto: " + p.getNome());
+        }
+        else if(q == quantidade){ //Removendo a quantidade exata do produto do estoque
+            System.out.println("Alerta: Após essa remoção, não há mais estoque do produto: " + p.getNome());
+            estoque.remove(p);
+        }
+        else{
+            estoque.put(p, estoque.get(p) - q);
+        }
+
+        return true;
+    }
 }
