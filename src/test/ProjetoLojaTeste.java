@@ -1,49 +1,91 @@
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ProjetoLojaTeste {
-   private Produto produto;
-   private Cliente cliente;
-   private Estoque estoque;
-   private Loja loja;
-   private Fornecedor fornecedor;
 
-   @BeforeEach
-    void setUp(){
-       produto = new Produto("Martelo", 10.0f, 15.0f);
-       cliente = new Cliente("João", "(34)9 1234-5678");
-       fornecedor = new Fornecedor("Empresa XYZ" ,"12.345.678/9876-54", "(34) 9 4321-1234", "contato@xyz.com.br", "Rua B, 321, Cidade X");
-       estoque = new Estoque();
-       loja = new Loja("Loja Teste", "Rua A, 123, Cidade X", true);
-
+   @Test
+   void testProduto() {
+      Produto produto = new Produto("Camiseta", 20.0f, 40.0f);
+      assertEquals("Camiseta", produto.getNome());
+      assertEquals(20.0f, produto.getPrecoCompra());
+      assertEquals(40.0f, produto.getPrecoVenda());
+      produto.setNome("Camiseta Atualizada");
+      produto.setDesc("Camiseta branca");
+      assertEquals("Camiseta Atualizada", produto.getNome());
+      assertEquals("Camiseta branca", produto.getDesc());
    }
 
    @Test
-    void TestProduto(){
-       assertEquals("Martelo", produto.getNome());
-       assertEquals(10.0f, produto.getPrecoCompra());
-       assertEquals(15.0f, produto.getPrecoVenda());
-
-       produto.setPrecoVenda(20.0f);
-       assertEquals(20.0f, produto.getPrecoVenda());
-       produto.setDesc("Martelo Carpinteiro com Cabo em Fibra de Vidro 450g");
-
-       System.out.println(produto);
-   }
-
-   @Test
-   void TestCliente(){
+   void testCliente() {
+      Cliente cliente = new Cliente("João", "123456789");
+      assertEquals("João", cliente.toString().contains("João") ? "João" : "");
+      cliente.setDivida(100.0f);
+      assertTrue(cliente.temDivida());
+      cliente.setDivida(200);
       System.out.println(cliente);
+      assertThrows(IllegalArgumentException.class, () -> cliente.setDivida(-50.0f));
+
    }
 
    @Test
-   void TestFornecedor(){
-      System.out.println(fornecedor);
-      System.out.println(cliente);
+   void testFornecedor() {
+      Fornecedor fornecedor = new Fornecedor("Fornecedor 1", "1234567890001", "999999999", "email@fornecedor.com", "Rua 1");
+      assertEquals("Fornecedor 1", fornecedor.getNome());
+      assertEquals("1234567890001", fornecedor.getCnpj());
    }
 
+   @Test
+   void testEstoque() {
+      Estoque estoque = new Estoque();
+      Produto produto = new Produto("Camiseta", 20.0f, 40.0f);
+      estoque.adicionarProduto(produto, 10);
+      assertEquals(10, estoque.getEstoque().get(produto));
+      estoque.removerProduto(produto, 5);
+      assertEquals(5, estoque.getEstoque().get(produto));
+      assertThrows(RuntimeException.class, () -> estoque.removerProduto(produto, 10));
+   }
 
+   @Test
+   void testTransacao() {
+      Produto produto = new Produto("Camiseta", 20.0f, 40.0f);
+      Transacao transacao = new Transacao(Pagamento.DINHEIRO);
+      transacao.adicionarItem(produto, 2);
+      assertEquals(80.0f, transacao.valorTotal);
+      transacao.removerItem(produto, 1);
+      assertEquals(40.0f, transacao.valorTotal);
+   }
 
+   @Test
+   void testCompra() {
+      Produto produto = new Produto("Camiseta", 20.0f, 40.0f);
+      Compra compra = new Compra("Fornecedor 1", Pagamento.PIX);
+      compra.adicionarItem(produto, 5);
+      assertEquals(200.0f, compra.valorTotal);
+      assertEquals("Fornecedor 1", compra.getFornecedor());
+   }
+
+   @Test
+   void testVenda() {
+      Cliente cliente = new Cliente("João", "123456789");
+      Produto produto = new Produto("Camiseta", 20.0f, 40.0f);
+      Venda venda = new Venda(cliente, Pagamento.CREDITO);
+      venda.adicionarItem(produto, 3);
+      assertEquals(120.0f, venda.getValorTotal());
+   }
+
+   @Test
+   void testLoja() {
+      Loja loja = new Loja("Loja 1", "Rua Principal", true);
+      Produto produto = new Produto("Camiseta", 20.0f, 40.0f);
+      Cliente cliente = new Cliente("João", "123456789");
+      Compra compra = new Compra("Fornecedor 1", Pagamento.PIX);
+      compra.adicionarItem(produto, 10);
+      assertTrue(loja.realizarCompra(compra));
+      assertEquals(10, loja.getEstoque().getEstoque().get(produto));
+
+      Venda venda = new Venda(cliente, Pagamento.CREDITO);
+      venda.adicionarItem(produto, 5);
+      assertTrue(loja.realizarVenda(venda));
+      assertEquals(5, loja.getEstoque().getEstoque().get(produto));
+   }
 }

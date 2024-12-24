@@ -7,8 +7,8 @@ public class Venda extends Transacao{
     private Cliente cliente;
 
 
-    public Venda(Cliente cli){
-        super();
+    public Venda(Cliente cli, Pagamento formaP){
+        super(formaP);
         cliente = cli;
     }
 

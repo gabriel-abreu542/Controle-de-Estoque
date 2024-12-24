@@ -29,7 +29,7 @@ public class Estoque {
     }
 
 
-    public boolean removerProdutos(Produto p, int quantidade) throws RuntimeException {
+    public boolean removerProduto(Produto p, int quantidade) throws RuntimeException {
         if(!estoque.containsKey(p)){
             return false;
         }
@@ -42,7 +42,7 @@ public class Estoque {
             estoque.remove(p);
         }
         else{
-            estoque.put(p, estoque.get(p) - q);
+            estoque.put(p, estoque.get(p) - quantidade);
         }
 
         return true;

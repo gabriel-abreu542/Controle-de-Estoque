@@ -8,10 +8,11 @@ public class Transacao {
     protected LocalDate dataTransacao;
     protected float valorTotal;
 
-    public Transacao(){
+    public Transacao(Pagamento f){
         itens = new HashMap<>();
         dataTransacao = LocalDate.now();
         valorTotal = 0;
+        formaPagamento = f;
     }
 
     public void adicionarItem(Produto p, int quantidade){
@@ -20,7 +21,7 @@ public class Transacao {
         }
         itens.put(p, itens.getOrDefault(p, 0) + quantidade);
 
-        valorTotal = valorTotal + itens.get(p) * p.getPrecoVenda(); //atualiza valor da compra
+        valorTotal += itens.get(p) * p.getPrecoVenda(); //atualiza valor da transacao
     }
 
     public void removerItem(Produto p, int quantidade){
@@ -35,7 +36,7 @@ public class Transacao {
             valorTotal = valorTotal - quantidade * p.getPrecoVenda(); //atualiza valor da compra
         }
         else{
-            valorTotal = valorTotal - itens.get(p) * p.getPrecoVenda(); //atualiza valor da compra
+            valorTotal -= itens.get(p) * p.getPrecoVenda(); //atualiza valor da transacao
             itens.remove(p);
         }
 
@@ -47,5 +48,9 @@ public class Transacao {
 
     public void setFormaPagamento(Pagamento formaPagamento) {
         this.formaPagamento = formaPagamento;
+    }
+
+    public Map<Produto, Integer> getItens() {
+        return itens;
     }
 }

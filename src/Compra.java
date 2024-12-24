@@ -4,8 +4,8 @@ public class Compra extends Transacao{
     private String fornecedor;
 
 
-    public Compra(String f){
-        super();
+    public Compra(String f, Pagamento formaP){
+        super(formaP);
         fornecedor = f;
     }
 
