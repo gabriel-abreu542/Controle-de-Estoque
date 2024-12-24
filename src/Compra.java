@@ -1,19 +1,19 @@
 import java.util.Map;
 
 public class Compra extends Transacao{
-    private String fornecedor;
+    private Fornecedor fornecedor;
 
 
-    public Compra(String f, Pagamento formaP){
+    public Compra(Fornecedor f, Pagamento formaP){
         super(formaP);
         fornecedor = f;
     }
 
-    public String getFornecedor(){
+    public Fornecedor getFornecedor(){
         return fornecedor;
     }
 
-    public void setFornecedor(String fornecedor) {
+    public void setFornecedor(Fornecedor fornecedor) {
         this.fornecedor = fornecedor;
     }
 

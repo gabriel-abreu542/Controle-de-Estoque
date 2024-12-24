@@ -58,10 +58,12 @@ public class ProjetoLojaTeste {
    @Test
    void testCompra() {
       Produto produto = new Produto("Camiseta", 20.0f, 40.0f);
-      Compra compra = new Compra("Fornecedor 1", Pagamento.PIX);
+      Fornecedor fornecedor = new Fornecedor("Fornecedor 1", "1234567890001", "999999999", "email@fornecedor.com", "Rua 1");
+
+      Compra compra = new Compra(fornecedor, Pagamento.PIX);
       compra.adicionarItem(produto, 5);
       assertEquals(200.0f, compra.valorTotal);
-      assertEquals("Fornecedor 1", compra.getFornecedor());
+      assertEquals(fornecedor, compra.getFornecedor());
    }
 
    @Test
@@ -76,16 +78,24 @@ public class ProjetoLojaTeste {
    @Test
    void testLoja() {
       Loja loja = new Loja("Loja 1", "Rua Principal", true);
-      Produto produto = new Produto("Camiseta", 20.0f, 40.0f);
+      Produto produto1 = new Produto("Camiseta", 20.0f, 40.0f);
+      Produto produto2 = new Produto("Bota", 16.0f, 30.0f);
       Cliente cliente = new Cliente("João", "123456789");
-      Compra compra = new Compra("Fornecedor 1", Pagamento.PIX);
-      compra.adicionarItem(produto, 10);
+      Fornecedor fornecedor = new Fornecedor("Fornecedor 1", "1234567890001", "999999999", "email@fornecedor.com", "Rua 1");
+      Compra compra = new Compra(fornecedor, Pagamento.PIX);
+      compra.adicionarItem(produto1, 10);
+      compra.adicionarItem(produto2, 20);
       assertTrue(loja.realizarCompra(compra));
-      assertEquals(10, loja.getEstoque().getEstoque().get(produto));
+      assertEquals(10, loja.getEstoque().getEstoque().get(produto1));
+      assertEquals(20, loja.getEstoque().getEstoque().get(produto2));
+      System.out.println(compra);
 
       Venda venda = new Venda(cliente, Pagamento.CREDITO);
-      venda.adicionarItem(produto, 5);
+      venda.adicionarItem(produto1, 5);
       assertTrue(loja.realizarVenda(venda));
-      assertEquals(5, loja.getEstoque().getEstoque().get(produto));
+      assertEquals(5, loja.getEstoque().getEstoque().get(produto1));
+      System.out.println(venda);
+
+      System.out.println(loja.getEstoque());
    }
 }

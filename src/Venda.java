@@ -23,7 +23,7 @@ public class Venda extends Transacao{
     @Override
     public String toString() {
         StringBuilder detalhes = new StringBuilder("Venda realizada:\n");
-        detalhes.append("Cliente: ").append(cliente.toString()).append("\n");
+        detalhes.append("Cliente: ").append(cliente.toString());
         detalhes.append("Data: ").append(dataTransacao).append("\n");
         detalhes.append("Itens:\n");
         for (Map.Entry<Produto, Integer> entry : itens.entrySet()) {
