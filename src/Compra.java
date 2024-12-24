@@ -1,29 +1,26 @@
-import java.time.LocalDate;
 import java.util.Map;
-import java.util.HashMap;
 
-public class Venda extends Transacao{
-
-    private Cliente cliente;
+public class Compra extends Transacao{
+    private String fornecedor;
 
 
-    public Venda(Cliente cli){
+    public Compra(String f){
         super();
-        cliente = cli;
+        fornecedor = f;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public String getFornecedor(){
+        return fornecedor;
     }
 
-    public float getValorTotal(){
-        return valorTotal;
+    public void setFornecedor(String fornecedor) {
+        this.fornecedor = fornecedor;
     }
 
     @Override
     public String toString() {
         StringBuilder detalhes = new StringBuilder("Venda realizada:\n");
-        detalhes.append("Cliente: ").append(cliente.toString()).append("\n");
+        detalhes.append("Fornecedor: ").append(fornecedor).append("\n");
         detalhes.append("Data: ").append(dataTransacao).append("\n");
         detalhes.append("Itens:\n");
         for (Map.Entry<Produto, Integer> entry : itens.entrySet()) {

@@ -28,23 +28,17 @@ public class Cliente {
             throw new IllegalArgumentException("Valor da dívida deve ser igual ou maior que zero");
         }
         this.divida = d;
-        if(divida > 0){
-            endividado = true;
-        }
-        else {
-            endividado = false;
-        }
+        endividado = divida > 0;
 
     }
 
     @Override
     public String toString() {
-        String detalhes = "Nome: " + nome + " - Telefone: " + telefone;
+        String detalhes = "Cliente:\nNome: " + nome + "\nTelefone: " + telefone;
         if(endividado){
-            detalhes = detalhes + " (ENDIVIDADO, R$" + divida + ")";
+            detalhes = detalhes + "\n(ENDIVIDADO, R$" + divida + ")";
         }
         detalhes = detalhes + "\n";
-
 
         return detalhes;
     }

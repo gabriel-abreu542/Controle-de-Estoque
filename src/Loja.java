@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 public class Loja {
     private String nome;
     private String endereco;
@@ -11,12 +13,8 @@ public class Loja {
         estoque = new Estoque();
     }
 
-    public void venda(){
-
-    }
-
-    public void compra(){
-
+    public void Compra(Fornecedor f, HashMap<Produto, Integer> itens){
+        // realizar compra de itens e adicionar no estoque da loja
     }
 
     public String getNome(){
