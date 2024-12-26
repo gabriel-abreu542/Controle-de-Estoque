@@ -88,14 +88,16 @@ public class ProjetoLojaTeste {
       assertTrue(loja.realizarCompra(compra));
       assertEquals(10, loja.getEstoque().getEstoque().get(produto1));
       assertEquals(20, loja.getEstoque().getEstoque().get(produto2));
-      System.out.println(compra);
 
       Venda venda = new Venda(cliente, Pagamento.CREDITO);
       venda.adicionarItem(produto1, 5);
       assertTrue(loja.realizarVenda(venda));
       assertEquals(5, loja.getEstoque().getEstoque().get(produto1));
-      System.out.println(venda);
 
-      System.out.println(loja.getEstoque());
+      System.out.println("Historico de compras:");
+      System.out.println(loja.getHistorico().getCompras());
+      System.out.println("Historico de vendas:");
+      System.out.println(loja.getHistorico().getVendas());
+
    }
 }

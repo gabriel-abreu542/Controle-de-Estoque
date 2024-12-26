@@ -3,7 +3,6 @@ import java.util.Map;
 public class Compra extends Transacao{
     private Fornecedor fornecedor;
 
-
     public Compra(Fornecedor f, Pagamento formaP){
         super(formaP);
         fornecedor = f;
@@ -19,8 +18,8 @@ public class Compra extends Transacao{
 
     @Override
     public String toString() {
-        StringBuilder detalhes = new StringBuilder("Venda realizada:\n");
-        detalhes.append("Fornecedor: ").append(fornecedor).append("\n");
+        StringBuilder detalhes = new StringBuilder("Compra realizada:\n");
+        detalhes.append(fornecedor).append("\n");
         detalhes.append("Data: ").append(dataTransacao).append("\n");
         detalhes.append("Itens:\n");
         for (Map.Entry<Produto, Integer> entry : itens.entrySet()) {

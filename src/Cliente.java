@@ -29,7 +29,6 @@ public class Cliente {
         }
         this.divida = d;
         endividado = divida > 0;
-
     }
 
     @Override
