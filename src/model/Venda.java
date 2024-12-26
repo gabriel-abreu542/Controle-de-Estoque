@@ -1,25 +1,27 @@
+package model;
+
 import java.util.Map;
 
-public class Compra extends Transacao{
-    private Fornecedor fornecedor;
+public class Venda extends Transacao{
+    private Cliente cliente;
 
-    public Compra(Fornecedor f, Pagamento formaP){
-        super(formaP);
-        fornecedor = f;
+    public Venda(String id, Cliente cli, Pagamento formaP){
+        super(id, formaP);
+        cliente = cli;
     }
 
-    public Fornecedor getFornecedor(){
-        return fornecedor;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setFornecedor(Fornecedor fornecedor) {
-        this.fornecedor = fornecedor;
+    public float getValorTotal(){
+        return valorTotal;
     }
 
     @Override
     public String toString() {
-        StringBuilder detalhes = new StringBuilder("Compra realizada:\n");
-        detalhes.append(fornecedor).append("\n");
+        StringBuilder detalhes = new StringBuilder("Venda:\n");
+        detalhes.append(cliente.toString());
         detalhes.append("Data: ").append(dataTransacao).append("\n");
         detalhes.append("Itens:\n");
         for (Map.Entry<Produto, Integer> entry : itens.entrySet()) {

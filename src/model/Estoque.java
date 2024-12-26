@@ -1,9 +1,11 @@
+package model;
+
 import java.util.HashMap;
 
 public class Estoque {
     private HashMap<Produto, Integer> estoque;
 
-    Estoque(){
+    public Estoque(){
         estoque = new HashMap<>();
     }
 

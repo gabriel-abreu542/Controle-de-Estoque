@@ -1,15 +1,24 @@
-public class Produto {
+package model;
+
+public class Produto implements Cadastravel{
+    public String id;
     private String nome;
     private String desc;
     private String tipo;
     private float precoCompra;
     private float precoVenda;
 
-    public Produto(String n, float pCompra, float pVenda){
+    public Produto(String id, String n, float pCompra, float pVenda){
+        this.id = id;
         nome = n;
         desc = "Item sem descrição";
         precoCompra = pCompra;
         precoVenda = pVenda;
+    }
+
+    @Override
+    public String getId() {
+        return id;
     }
 
     public String getNome(){

@@ -1,4 +1,6 @@
-public class Fornecedor {
+package model;
+
+public class Fornecedor implements Cadastravel{
     private String nome;
     private String cnpj;
     private String telefone;
@@ -17,7 +19,7 @@ public class Fornecedor {
         return nome;
     }
 
-    public String getCnpj() {
+    public String getId() {
         return cnpj;
     }
 

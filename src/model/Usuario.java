@@ -1,0 +1,33 @@
+package model;
+
+public class Usuario {
+    private String id;
+    private String nome;
+    private String senha;
+    private boolean adm;
+
+    public Usuario(String i, String n, String s, boolean adm){
+        id = i;
+        nome = n;
+        senha = s;
+        this.adm = adm;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public boolean isAdm() {
+        return adm;
+    }
+
+
+}

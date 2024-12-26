@@ -1,18 +1,27 @@
+package model;
+
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Transacao {
+public class Transacao implements Cadastravel{
+    protected String id;
     protected Map<Produto, Integer> itens;
     protected Pagamento formaPagamento;
     protected LocalDate dataTransacao;
     protected float valorTotal;
 
-    public Transacao(Pagamento f){
+    public Transacao(String id, Pagamento f){
+        this.id = id;
         itens = new HashMap<>();
         dataTransacao = LocalDate.now();
         valorTotal = 0;
         formaPagamento = f;
+    }
+
+    @Override
+    public String getId() {
+        return id;
     }
 
     public void adicionarItem(Produto p, int quantidade){
@@ -40,6 +49,18 @@ public class Transacao {
             itens.remove(p);
         }
 
+    }
+
+    public LocalDate getDataTransacao() {
+        return dataTransacao;
+    }
+
+    public void setDataTransacao(LocalDate dataTransacao) {
+        this.dataTransacao = dataTransacao;
+    }
+
+    public float getValorTotal() {
+        return valorTotal;
     }
 
     public Pagamento getFormaPagamento() {

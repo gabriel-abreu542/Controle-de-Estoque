@@ -1,14 +1,34 @@
-public class Cliente {
+package model;
+
+public class Cliente implements Cadastravel{
+    private String cpf;
     private String nome;
     private String telefone;
     private boolean endividado;
     private float divida;
 
-    public Cliente(String n, String tel){
+    public Cliente(String cpf, String n, String tel){
+        this.cpf = cpf;
         nome = n;
         telefone = tel;
         endividado = false;
         divida = 0;
+    }
+
+    public String getId() {
+        return cpf;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public float getDivida() {
+        return divida;
     }
 
     public void setNome(String nome) {
