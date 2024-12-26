@@ -1,4 +1,10 @@
 package service;
 
-public class CadastroClientes {
+import model.Cadastravel;
+
+import java.util.Collections;
+import java.util.List;
+
+public class CadastroClientes  {
+
 }

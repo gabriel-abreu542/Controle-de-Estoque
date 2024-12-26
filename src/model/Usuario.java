@@ -1,6 +1,6 @@
 package model;
 
-public class Usuario {
+public class Usuario implements Cadastravel {
     private String id;
     private String nome;
     private String senha;
