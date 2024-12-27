@@ -1,4 +1,4 @@
-package model.test;
+package test.model;
 
 import model.*;
 import org.junit.jupiter.api.*;
@@ -8,12 +8,13 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ProjetoLojaTeste {
+public class ProjetoLojaTest {
 
    @Test
    void testProduto() {
       Produto produto = new Produto("1","Camiseta", 20.0f, 40.0f);
-      assertEquals("2","Camiseta", produto.getNome());
+      assertEquals("1", produto.getId());
+      assertEquals("Camiseta", produto.getNome());
       assertEquals(20.0f, produto.getPrecoCompra());
       assertEquals(40.0f, produto.getPrecoVenda());
       produto.setNome("Camiseta Atualizada");

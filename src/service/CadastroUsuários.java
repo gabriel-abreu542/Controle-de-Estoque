@@ -28,8 +28,14 @@ public class CadastroUsuários implements Cadastro<Usuario> {
     }
 
     @Override
-    public boolean atualizar(Usuario item) {
-        return false;
+    public void atualizar(Usuario item) {
+        for (int i = 0; i < registros.size(); i++) {
+            if (registros.get(i).getId().equals(item.getId())) {
+                registros.set(i, item);
+                return;
+            }
+        }
+        throw new IllegalArgumentException("Item não encontrado.");
     }
 
     @Override
