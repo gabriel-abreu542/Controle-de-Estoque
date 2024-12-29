@@ -9,6 +9,9 @@ import org.junit.jupiter.api.Test;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class UsuarioDAOTest {
@@ -19,7 +22,6 @@ public class UsuarioDAOTest {
         Connection connection = ConexaoDBTest.getConnection();
 
         try (Statement stmt = connection.createStatement()) {
-            System.out.println("Query: " + stmt);
             stmt.execute("CREATE TABLE usuarios (id TEXT PRIMARY KEY, nome TEXT, senha TEXT, adm BOOLEAN)");
         }
 
@@ -30,7 +32,6 @@ public class UsuarioDAOTest {
     void tearDown() {
         try (Connection conn = ConexaoDBTest.getConnection();
              Statement stmt = conn.createStatement()) {
-            System.out.println("Query: " + stmt);
             stmt.execute("DROP TABLE usuarios");
         } catch (Exception e) {
             e.printStackTrace();
@@ -51,6 +52,20 @@ public class UsuarioDAOTest {
 
     @Test
     void testListarUsuarios(){
+        Usuario usuario1 = new Usuario("1", "Gabriel", "senha123", true);
+        usuarioDAO.inserirUsuario(usuario1);
+        Usuario usuario2 = new Usuario("2", "Maria", "senha@321", false);
+        usuarioDAO.inserirUsuario(usuario2);
+        Usuario usuario3 = new Usuario("3", "Pedro", "senha_951", false);
+        usuarioDAO.inserirUsuario(usuario3);
+
+        Usuario usuario4 = usuarioDAO.buscarUsuarioId("1");
+        System.out.println(usuario4.getNome());
+
+        usuarioDAO.testeSQL();
+
+
+
 
     }
 

@@ -11,6 +11,7 @@ public class ConexaoDBTest {
     public static Connection getConnection() throws SQLException {
         if (connection == null || connection.isClosed()) {
             connection = DriverManager.getConnection(url_teste);
+            System.out.println("Conexao teste estabelecida com SQLite");
         }
         return connection;
     }
@@ -20,6 +21,7 @@ public class ConexaoDBTest {
             if (connection != null) {
                 connection.close();
                 connection = null;
+                System.out.println("Conexao SQLite teste encerrada.");
             }
         } catch (SQLException e) {
             e.printStackTrace();

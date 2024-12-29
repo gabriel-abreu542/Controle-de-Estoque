@@ -2,10 +2,7 @@ package dao;
 
 import model.Usuario;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,12 +37,35 @@ public class UsuarioDAO {
             stmt.setString(2, novoUsuario.getNome());
             stmt.setString(3, novoUsuario.getSenha());
             stmt.setBoolean( 4, novoUsuario.isAdm());
-
             stmt.executeUpdate();
             System.out.println("Usuario inserido com sucesso.");
         }catch (SQLException e){
             e.printStackTrace();
         }
+    }
+
+    public void testeSQL(){
+        String sql = "SELECT * FROM usuarios";
+        Usuario usuario = null;
+        ArrayList<Usuario> lista = new ArrayList<>();
+        try (PreparedStatement stmt = connection.prepareStatement(sql)){
+            System.out.println(stmt);
+
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+
+                usuario = new Usuario(
+                        rs.getString("id"),
+                        rs.getString("nome"),
+                        rs.getString("senha"),
+                        rs.getBoolean("adm")
+                );
+
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
     }
 
     public Usuario buscarUsuarioId(String id){
@@ -54,8 +74,9 @@ public class UsuarioDAO {
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)){
             stmt.setString(1, id);
-            ResultSet rs = stmt.executeQuery();
+            System.out.println(stmt);
 
+            ResultSet rs = stmt.executeQuery();
             if(rs.next()){
                 usuario = new Usuario(
                         rs.getString("id"),
@@ -74,12 +95,11 @@ public class UsuarioDAO {
 
     public List<Usuario> listarUsuarios(){
         String sql = "SELECT * FROM usuarios";
-        List<Usuario> listaUsuarios = new ArrayList<>();
+        ArrayList<Usuario> listaUsuarios = new ArrayList<>();
         try (PreparedStatement stmt = connection.prepareStatement(sql)){
-
             ResultSet rs = stmt.getResultSet();
-
             while(rs.next()){
+                System.out.println("\nADICIONANDO USUARIO NA LISTA\n");
                 Usuario u = new Usuario(
                         rs.getString("id"),
                         rs.getString("nome"),
@@ -104,8 +124,6 @@ public class UsuarioDAO {
             stmt.setString(2, usuario.getSenha());
             stmt.setBoolean(3, usuario.isAdm());
             stmt.setString(4, usuario.getId());
-
-
             stmt.executeUpdate();
             System.out.println("Usuario atualizado com sucesso.");
         } catch (SQLException e){
@@ -118,8 +136,6 @@ public class UsuarioDAO {
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, id);
-
-
             stmt.executeUpdate();
             System.out.println("Usuario removido com sucesso.");
         } catch (SQLException e){

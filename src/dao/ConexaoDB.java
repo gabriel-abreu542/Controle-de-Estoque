@@ -21,7 +21,7 @@ public class ConexaoDB {
     }
 
     public static void setDatabaseUrl(String databaseUrl) {
-        url = databaseUrl; // Permite mudar o banco durante os testes
+        url = databaseUrl;
     }
 
     public static void closeConnection() {
