@@ -55,6 +55,7 @@ public class VendaDAOTest {
         Venda venda3 = new Venda("V3", cliente2, "PIX");
         venda3.adicionarItem(produto4, 5);
         vendaDAO.inserirVenda(venda3);
+
     }
 
     @AfterEach
@@ -64,7 +65,22 @@ public class VendaDAOTest {
 
     @Test
     public void testBuscarVendaId(){
-        Venda buscada = vendaDAO.buscarVendaId("V3");
+        Venda buscada = vendaDAO.buscarVendaId("V1");
         System.out.println(buscada);
+    }
+
+    @Test
+    public void testListarVendas(){
+        for (Venda v : vendaDAO.listarVendas()){
+            System.out.println();
+            System.out.println(v);
+        }
+    }
+
+    @Test
+    public void testRemoverVenda(){
+        vendaDAO.removerVenda("V3");
+        Venda buscada = vendaDAO.buscarVendaId("V3");
+        assertNull(buscada);
     }
 }
