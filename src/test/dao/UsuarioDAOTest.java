@@ -1,5 +1,7 @@
 package test.dao;
 
+import model.Pagamento;
+import model.Transacao;
 import model.Usuario;
 import dao.UsuarioDAO;
 import org.junit.jupiter.api.AfterEach;
@@ -20,28 +22,23 @@ public class UsuarioDAOTest {
     @BeforeEach
     public void setUp() throws SQLException {
         Connection connection = ConexaoDBTest.getConnection();
-
-        try (Statement stmt = connection.createStatement()) {
-            stmt.execute("CREATE TABLE usuarios (id TEXT PRIMARY KEY, nome TEXT, senha TEXT, adm BOOLEAN)");
-        }
-
         usuarioDAO = new UsuarioDAO(connection);
+        usuarioDAO.criarTabelaUsuarios();
+        inserirUsuarios();
     }
 
     @AfterEach
     void tearDown() {
-        try (Connection conn = ConexaoDBTest.getConnection();
-             Statement stmt = conn.createStatement()) {
-            stmt.execute("DROP TABLE usuarios");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        usuarioDAO.deletarTabelaUsuarios();
     }
 
-    @Test
-    void testInserirUsuario() {
-        Usuario usuario = new Usuario("1", "Gabriel", "senha123", true);
-        usuarioDAO.inserirUsuario(usuario);
+    void inserirUsuarios() {
+        Usuario usuario1 = new Usuario("1", "Gabriel", "senha123", true);
+        usuarioDAO.inserirUsuario(usuario1);
+        Usuario usuario2 = new Usuario("2", "Maria", "senha@321", false);
+        usuarioDAO.inserirUsuario(usuario2);
+        Usuario usuario3 = new Usuario("3", "Pedro", "senha_951", false);
+        usuarioDAO.inserirUsuario(usuario3);
 
         Usuario usuarioBuscado = usuarioDAO.buscarUsuarioId("1");
         assertNotNull(usuarioBuscado);
@@ -52,21 +49,40 @@ public class UsuarioDAOTest {
 
     @Test
     void testListarUsuarios(){
-        Usuario usuario1 = new Usuario("1", "Gabriel", "senha123", true);
-        usuarioDAO.inserirUsuario(usuario1);
-        Usuario usuario2 = new Usuario("2", "Maria", "senha@321", false);
-        usuarioDAO.inserirUsuario(usuario2);
-        Usuario usuario3 = new Usuario("3", "Pedro", "senha_951", false);
-        usuarioDAO.inserirUsuario(usuario3);
+        for(Usuario u : usuarioDAO.listarUsuarios()){
+            System.out.println(u.getNome());
+        }
+    }
 
-        Usuario usuario4 = usuarioDAO.buscarUsuarioId("1");
-        System.out.println(usuario4.getNome());
+    @Test
+    void testRemoverUsuario(){
 
-        usuarioDAO.testeSQL();
+        for(Usuario u : usuarioDAO.listarUsuarios()){
+            System.out.println(u.getNome());
+        }
 
+        usuarioDAO.removerUsuario("2");
 
+        for(Usuario u : usuarioDAO.listarUsuarios()){
+            System.out.println(u.getNome());
+        }
 
+    }
 
+    @Test
+    void testAtualizarUsuario(){
+        Usuario buscado = usuarioDAO.buscarUsuarioId("2");
+        System.out.println(buscado.getNome());
+        System.out.println("Senha = " + buscado.getSenha());
+        System.out.println("Adm = " + buscado.isAdm());
+
+        buscado.setAdm(true);
+        usuarioDAO.atualizarUsuario(buscado);
+
+        Usuario atualizado = usuarioDAO.buscarUsuarioId("2");
+        System.out.println(atualizado.getNome());
+        System.out.println("Senha = " + atualizado.getSenha());
+        System.out.println("Adm = " + atualizado.isAdm());
     }
 
 

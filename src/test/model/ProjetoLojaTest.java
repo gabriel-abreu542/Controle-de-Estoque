@@ -56,7 +56,7 @@ public class ProjetoLojaTest {
    @Test
    void testTransacao() {
       Produto produto = new Produto("1","Camiseta", 20.0f, 40.0f);
-      Transacao transacao = new Transacao("1", Pagamento.DINHEIRO);
+      Transacao transacao = new Transacao("1", "DINHEIRO");
       transacao.adicionarItem(produto, 2);
       assertEquals(80.0f, transacao.getValorTotal());
       transacao.removerItem(produto, 1);
@@ -68,7 +68,7 @@ public class ProjetoLojaTest {
       Produto produto = new Produto("1","Camiseta", 20.0f, 40.0f);
       Fornecedor fornecedor = new Fornecedor("Fornecedor 1", "1234567890001", "999999999", "email@fornecedor.com", "Rua 1");
 
-      Compra compra = new Compra("1", fornecedor, Pagamento.PIX);
+      Compra compra = new Compra("1", fornecedor, "PIX");
       compra.adicionarItem(produto, 5);
       assertEquals(200.0f, compra.getValorTotal());
       assertEquals(fornecedor, compra.getFornecedor());
@@ -78,7 +78,7 @@ public class ProjetoLojaTest {
    void testVenda() {
       Cliente cliente = new Cliente("1", "João", "123456789");
       Produto produto = new Produto("2","Camiseta", 20.0f, 40.0f);
-      Venda venda = new Venda("1",cliente, Pagamento.CREDITO);
+      Venda venda = new Venda("1",cliente, "CREDITO");
       venda.adicionarItem(produto, 3);
       assertEquals(120.0f, venda.getValorTotal());
    }
@@ -90,14 +90,14 @@ public class ProjetoLojaTest {
       Produto produto2 = new Produto("2","Bota", 16.0f, 30.0f);
       Cliente cliente = new Cliente("1","João", "123456789");
       Fornecedor fornecedor = new Fornecedor("Fornecedor 1", "1234567890001", "999999999", "email@fornecedor.com", "Rua 1");
-      Compra compra = new Compra("1", fornecedor, Pagamento.PIX);
+      Compra compra = new Compra("1", fornecedor, "PIX");
       compra.adicionarItem(produto1, 10);
       compra.adicionarItem(produto2, 20);
       assertTrue(loja.realizarCompra(compra));
       assertEquals(10, loja.getEstoque().getEstoque().get(produto1));
       assertEquals(20, loja.getEstoque().getEstoque().get(produto2));
 
-      Venda venda = new Venda("1", cliente, Pagamento.CREDITO);
+      Venda venda = new Venda("1", cliente, "CREDITO");
       venda.adicionarItem(produto1, 5);
       assertTrue(loja.realizarVenda(venda));
       assertEquals(5, loja.getEstoque().getEstoque().get(produto1));
@@ -122,26 +122,26 @@ public class ProjetoLojaTest {
       Produto produto1 = new Produto("1","Parafuso", 0.50f, 1.00f);
       Produto produto2 = new Produto("2","Cimento", 15.00f, 30.00f);
 
-      Compra compra1 = new Compra("1",fornecedor1, Pagamento.PIX);
+      Compra compra1 = new Compra("1",fornecedor1, "PIX");
       compra1.adicionarItem(produto1, 100);
       compra1.setDataTransacao(LocalDate.of(2024, 12, 24));
       assertTrue(loja.realizarCompra(compra1));
       System.out.println(compra1);
 
-      Compra compra2 = new Compra("2",fornecedor2, Pagamento.DINHEIRO);
+      Compra compra2 = new Compra("2",fornecedor2, "DINHEIRO");
       compra2.adicionarItem(produto2, 50);
       compra2.setDataTransacao(LocalDate.of(2024, 12, 25));
       assertTrue(loja.realizarCompra(compra2));
       System.out.println(compra2);
 
       // Realizar vendas
-      Venda venda1 = new Venda("1",cliente1, Pagamento.CREDITO);
+      Venda venda1 = new Venda("1",cliente1, "CREDITO");
       venda1.adicionarItem(produto1, 10);
       venda1.setDataTransacao(LocalDate.of(2024, 12, 26));
       assertTrue(loja.realizarVenda(venda1));
       System.out.println(venda1);
 
-      Venda venda2 = new Venda("2",cliente2, Pagamento.DEBITO);
+      Venda venda2 = new Venda("2",cliente2, "DEBITO");
       venda2.adicionarItem(produto2, 5);
       venda2.setDataTransacao(LocalDate.of(2024, 12, 27));
       assertTrue(loja.realizarVenda(venda2));

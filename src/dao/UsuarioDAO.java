@@ -1,6 +1,7 @@
 package dao;
 
 import model.Usuario;
+import test.dao.ConexaoDBTest;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -44,13 +45,11 @@ public class UsuarioDAO {
         }
     }
 
-    public void testeSQL(){
+    public List<Usuario> listarUsuarios(){
         String sql = "SELECT * FROM usuarios";
         Usuario usuario = null;
         ArrayList<Usuario> lista = new ArrayList<>();
         try (PreparedStatement stmt = connection.prepareStatement(sql)){
-            System.out.println(stmt);
-
             ResultSet rs = stmt.executeQuery();
             while(rs.next()){
 
@@ -60,12 +59,13 @@ public class UsuarioDAO {
                         rs.getString("senha"),
                         rs.getBoolean("adm")
                 );
-
+                lista.add(usuario);
             }
         }catch (SQLException e){
             e.printStackTrace();
         }
 
+        return lista;
     }
 
     public Usuario buscarUsuarioId(String id){
@@ -74,8 +74,6 @@ public class UsuarioDAO {
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)){
             stmt.setString(1, id);
-            System.out.println(stmt);
-
             ResultSet rs = stmt.executeQuery();
             if(rs.next()){
                 usuario = new Usuario(
@@ -91,29 +89,6 @@ public class UsuarioDAO {
         }
 
         return usuario;
-    }
-
-    public List<Usuario> listarUsuarios(){
-        String sql = "SELECT * FROM usuarios";
-        ArrayList<Usuario> listaUsuarios = new ArrayList<>();
-        try (PreparedStatement stmt = connection.prepareStatement(sql)){
-            ResultSet rs = stmt.getResultSet();
-            while(rs.next()){
-                System.out.println("\nADICIONANDO USUARIO NA LISTA\n");
-                Usuario u = new Usuario(
-                        rs.getString("id"),
-                        rs.getString("nome"),
-                        rs.getString("senha"),
-                        rs.getBoolean("adm")
-                );
-                listaUsuarios.add(u);
-            }
-
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-
-        return listaUsuarios;
     }
 
     public void atualizarUsuario(Usuario usuario){
@@ -139,6 +114,15 @@ public class UsuarioDAO {
             stmt.executeUpdate();
             System.out.println("Usuario removido com sucesso.");
         } catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void deletarTabelaUsuarios(){
+        try (Statement stmt = connection.createStatement()) {
+            stmt.execute("DROP TABLE usuarios");
+            System.out.println("Tabela 'usuarios' deletada");
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

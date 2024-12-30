@@ -7,11 +7,11 @@ import java.util.Map;
 public class Transacao implements Cadastravel{
     protected String id;
     protected Map<Produto, Integer> itens;
-    protected Pagamento formaPagamento;
+    protected String formaPagamento;
     protected LocalDate dataTransacao;
     protected float valorTotal;
 
-    public Transacao(String id, Pagamento f){
+    public Transacao(String id, String f){
         this.id = id;
         itens = new HashMap<>();
         dataTransacao = LocalDate.now();
@@ -63,11 +63,11 @@ public class Transacao implements Cadastravel{
         return valorTotal;
     }
 
-    public Pagamento getFormaPagamento() {
+    public String getFormaPagamento() {
         return formaPagamento;
     }
 
-    public void setFormaPagamento(Pagamento formaPagamento) {
+    public void setFormaPagamento(String formaPagamento) {
         this.formaPagamento = formaPagamento;
     }
 

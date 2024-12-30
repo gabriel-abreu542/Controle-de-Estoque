@@ -5,7 +5,7 @@ import java.util.Map;
 public class Compra extends Transacao{
     private Fornecedor fornecedor;
 
-    public Compra(String id, Fornecedor f, Pagamento formaP){
+    public Compra(String id, Fornecedor f, String formaP){
         super(id, formaP);
         fornecedor = f;
     }

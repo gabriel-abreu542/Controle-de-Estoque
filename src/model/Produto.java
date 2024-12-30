@@ -11,7 +11,8 @@ public class Produto implements Cadastravel{
     public Produto(String id, String n, float pCompra, float pVenda){
         this.id = id;
         nome = n;
-        desc = "Item sem descrição";
+        desc = "";
+        tipo = "";
         precoCompra = pCompra;
         precoVenda = pVenda;
     }

@@ -5,7 +5,7 @@ import java.util.Map;
 public class Venda extends Transacao{
     private Cliente cliente;
 
-    public Venda(String id, Cliente cli, Pagamento formaP){
+    public Venda(String id, Cliente cli, String formaP){
         super(id, formaP);
         cliente = cli;
     }
