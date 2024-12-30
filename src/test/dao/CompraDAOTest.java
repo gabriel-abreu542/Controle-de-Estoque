@@ -1,0 +1,92 @@
+package test.dao;
+
+import dao.FornecedorDAO;
+import dao.CompraDAO;
+import dao.ProdutoDAO;
+import dao.VendaDAO;
+import model.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+public class CompraDAOTest {
+    private CompraDAO compraDAO;
+
+    @BeforeEach
+    public void setUp() throws SQLException {
+        Connection connection = ConexaoDBTest.getConnection();
+        compraDAO = new CompraDAO(connection);
+        compraDAO.criarTabelasCompras();
+        FornecedorDAO fornecedorDAO = new FornecedorDAO(connection);
+        ProdutoDAO produtoDAO = new ProdutoDAO(connection);
+        fornecedorDAO.criarTabelaFornecedores();
+        produtoDAO.criarTabelaProdutos();
+
+        Fornecedor fornecedor1 = new Fornecedor("12345", "Empresa A", "12349999", "contato@empresaA.br", "Rua A");
+        fornecedorDAO.inserirFornecedor(fornecedor1);
+
+        Produto produto1 = new Produto("P1","Parafuso", 0.50f, 1.00f);
+        Produto produto2 = new Produto("P2","Cimento", 15.00f, 30.00f);
+        produtoDAO.inserirProduto(produto1);
+        produtoDAO.inserirProduto(produto2);
+
+        Compra compra1 = new Compra("Compra1", fornecedor1, "DINHEIRO");
+        compra1.adicionarItem(produto1, 30);
+        compra1.adicionarItem(produto2, 3);
+        compraDAO.inserirCompra(compra1);
+
+        Fornecedor fornecedor2 = new Fornecedor("25431", "Empresa B", "1234321", "contato@empresaB.br", "Rua B");
+        fornecedorDAO.inserirFornecedor(fornecedor2);
+
+        Produto produto3 = new Produto("P3", "Tijolo", 2.00f, 3.50f);
+        Produto produto4 = new Produto("P4", "Areia", 10.00f, 25.00f);
+        produtoDAO.inserirProduto(produto3);
+        produtoDAO.inserirProduto(produto4);
+
+        Compra compra2 = new Compra("Compra2", fornecedor2, "CREDITO");
+        compra2.adicionarItem(produto3, 50);
+        compra2.adicionarItem(produto4, 10);
+        compraDAO.inserirCompra(compra2);
+
+        Compra compra3 = new Compra("Compra3", fornecedor2, "PIX");
+        compra3.adicionarItem(produto4, 5);
+        compraDAO.inserirCompra(compra3);
+
+    }
+
+    @AfterEach
+    void tearDown() throws SQLException{
+        Connection connection = ConexaoDBTest.getConnection();
+        compraDAO.deletarTabelasCompras();
+        ProdutoDAO produtoDAO = new ProdutoDAO(connection);
+        FornecedorDAO fornecedorDAO = new FornecedorDAO(connection);
+        produtoDAO.deletarTabelaProdutos();
+        fornecedorDAO.deletarTabelaFornecedores();
+    }
+
+    @Test
+    public void testBuscarCompraId(){
+        Compra buscada = compraDAO.buscarCompraId("Compra1");
+        System.out.println(buscada);
+    }
+
+    @Test
+    public void testListarCompras(){
+        for (Compra v : compraDAO.listarCompras()){
+            System.out.println();
+            System.out.println(v);
+        }
+    }
+
+    @Test
+    public void testRemoverCompra(){
+        compraDAO.removerCompra("Compra3");
+        Compra buscada = compraDAO.buscarCompraId("V3");
+        assertNull(buscada);
+    }
+}

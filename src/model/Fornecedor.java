@@ -7,9 +7,9 @@ public class Fornecedor implements Cadastravel{
     private String email;
     private String endereco;
 
-    public Fornecedor(String n, String cnpj, String tel, String e_mail, String end){
-        nome = n;
+    public Fornecedor(String cnpj, String n, String tel, String e_mail, String end){
         this.cnpj = cnpj;
+        nome = n;
         telefone = tel;
         email = e_mail;
         endereco = end;
@@ -33,6 +33,22 @@ public class Fornecedor implements Cadastravel{
 
     public String getEndereco() {
         return endereco;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override

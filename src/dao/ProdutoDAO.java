@@ -70,7 +70,7 @@ public class ProdutoDAO {
                      p.setDesc(desc);
                 }
                 if(!tipo.equals("")){
-                    p.setDesc(tipo);
+                    p.setTipo(tipo);
                 }
 
                 lista.add(p);

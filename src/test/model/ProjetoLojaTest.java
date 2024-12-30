@@ -37,7 +37,7 @@ public class ProjetoLojaTest {
 
    @Test
    void testFornecedor() {
-      Fornecedor fornecedor = new Fornecedor("Fornecedor 1", "1234567890001", "999999999", "email@fornecedor.com", "Rua 1");
+      Fornecedor fornecedor = new Fornecedor("1234567890001", "Fornecedor 1", "999999999", "email@fornecedor.com", "Rua 1");
       assertEquals("Fornecedor 1", fornecedor.getNome());
       assertEquals("1234567890001", fornecedor.getId());
    }
@@ -66,7 +66,7 @@ public class ProjetoLojaTest {
    @Test
    void testCompra() {
       Produto produto = new Produto("1","Camiseta", 20.0f, 40.0f);
-      Fornecedor fornecedor = new Fornecedor("Fornecedor 1", "1234567890001", "999999999", "email@fornecedor.com", "Rua 1");
+      Fornecedor fornecedor = new Fornecedor("1234567890001", "Fornecedor 1", "999999999", "email@fornecedor.com", "Rua 1");
 
       Compra compra = new Compra("1", fornecedor, "PIX");
       compra.adicionarItem(produto, 5);
@@ -89,7 +89,7 @@ public class ProjetoLojaTest {
       Produto produto1 = new Produto("1","Camiseta", 20.0f, 40.0f);
       Produto produto2 = new Produto("2","Bota", 16.0f, 30.0f);
       Cliente cliente = new Cliente("1","João", "123456789");
-      Fornecedor fornecedor = new Fornecedor("Fornecedor 1", "1234567890001", "999999999", "email@fornecedor.com", "Rua 1");
+      Fornecedor fornecedor = new Fornecedor("1234567890001", "Fornecedor 1", "999999999", "email@fornecedor.com", "Rua 1");
       Compra compra = new Compra("1", fornecedor, "PIX");
       compra.adicionarItem(produto1, 10);
       compra.adicionarItem(produto2, 20);
@@ -116,8 +116,8 @@ public class ProjetoLojaTest {
       Cliente cliente1 = new Cliente("1", "Gabriel", "9999-9999");
       Cliente cliente2 = new Cliente("2", "Maria", "8888-8888");
 
-      Fornecedor fornecedor1 = new Fornecedor("Fornecedor A", "11111111/0001-11", "1234-5678", "email@a.com", "Rua A");
-      Fornecedor fornecedor2 = new Fornecedor("Fornecedor B", "22222222/0001-22", "5678-1234", "email@b.com", "Rua B");
+      Fornecedor fornecedor1 = new Fornecedor("11111111/0001-11", "Fornecedor A", "1234-5678", "email@a.com", "Rua A");
+      Fornecedor fornecedor2 = new Fornecedor("22222222/0001-22", "Fornecedor B", "5678-1234", "email@b.com", "Rua B");
 
       Produto produto1 = new Produto("1","Parafuso", 0.50f, 1.00f);
       Produto produto2 = new Produto("2","Cimento", 15.00f, 30.00f);

@@ -59,8 +59,13 @@ public class VendaDAOTest {
     }
 
     @AfterEach
-    void tearDown() {
+    void tearDown() throws SQLException{
+        Connection connection = ConexaoDBTest.getConnection();
         vendaDAO.deletarTabelasVendas();
+        ProdutoDAO produtoDAO = new ProdutoDAO(connection);
+        ClienteDAO clienteDAO = new ClienteDAO(connection);
+        produtoDAO.deletarTabelaProdutos();
+        clienteDAO.deletarTabelaClientes();
     }
 
     @Test
