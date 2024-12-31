@@ -18,13 +18,13 @@ public class ProdutoDAOTest {
     public void setUp() throws SQLException {
         Connection connection = ConexaoDBTest.getConnection();
         produtoDAO = new ProdutoDAO(connection);
-        produtoDAO.criarTabelaProdutos();
+        produtoDAO.criarTabela();
         inserirProdutos();
     }
 
     @AfterEach
     void tearDown() {
-        produtoDAO.deletarTabelaProdutos();
+        produtoDAO.deletarTabela();
     }
 
 
@@ -32,13 +32,13 @@ public class ProdutoDAOTest {
         Produto produto1 = new Produto("1", "Martelo", 23.5f, 32.0f);
         produto1.setDesc("Martelo de carpinteiro");
         produto1.setTipo("Ferramenta");
-        produtoDAO.inserirProduto(produto1);
+        produtoDAO.inserir(produto1);
         Produto produto2 = new Produto("2", "Prego", 1.5f, 2.99f);
-        produtoDAO.inserirProduto(produto2);
+        produtoDAO.inserir(produto2);
         Produto produto3 = new Produto("3", "Capacete", 15.3f, 26.7f);
-        produtoDAO.inserirProduto(produto3);
+        produtoDAO.inserir(produto3);
 
-        Produto produtoBuscado = produtoDAO.buscarProdutoId("1");
+        Produto produtoBuscado = produtoDAO.buscarPorId("1");
         assertNotNull(produtoBuscado);
         assertEquals("Martelo", produtoBuscado.getNome());
         assertEquals(23.5f, produtoBuscado.getPrecoCompra());
@@ -50,7 +50,7 @@ public class ProdutoDAOTest {
 
     @Test
     void testListarProdutos(){
-        for(Produto u : produtoDAO.listarProdutos()){
+        for(Produto u : produtoDAO.listarTodos()){
             System.out.println(u);
         }
     }
@@ -58,13 +58,13 @@ public class ProdutoDAOTest {
     @Test
     void testRemoverProduto(){
 
-        for(Produto u : produtoDAO.listarProdutos()){
+        for(Produto u : produtoDAO.listarTodos()){
             System.out.println(u.getNome());
         }
 
-        produtoDAO.removerProduto("2");
+        produtoDAO.remover("2");
 
-        for(Produto u : produtoDAO.listarProdutos()){
+        for(Produto u : produtoDAO.listarTodos()){
             System.out.println(u.getNome());
         }
 
@@ -72,13 +72,13 @@ public class ProdutoDAOTest {
 
     @Test
     void testAtualizarProduto(){
-        Produto buscado = produtoDAO.buscarProdutoId("1");
+        Produto buscado = produtoDAO.buscarPorId("1");
         System.out.println(buscado);
 
         buscado.setPrecoVenda(39.99f);
-        produtoDAO.atualizarProduto(buscado);
+        produtoDAO.atualizar(buscado);
 
-        Produto atualizado = produtoDAO.buscarProdutoId("1");
+        Produto atualizado = produtoDAO.buscarPorId("1");
         System.out.println(atualizado);
     }
 

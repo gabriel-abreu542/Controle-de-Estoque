@@ -2,142 +2,64 @@ package dao;
 
 import model.Cliente;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-public class ClienteDAO {
-    private final Connection connection;
-
-    public ClienteDAO(Connection conn){
-        connection = conn;
+public class ClienteDAO extends ObjetoDAO<Cliente>{
+    public ClienteDAO(Connection conn) {
+        super(conn);
     }
 
-    public void criarTabelaClientes(){
-        String sql = "CREATE TABLE IF NOT EXISTS clientes ("+
+    @Override
+    public void setSQL() {
+        sqlCriar = "CREATE TABLE IF NOT EXISTS clientes ("+
                 "cpf TEXT PRIMARY KEY," +
                 "nome TEXT NOT NULL," +
                 "telefone TEXT NOT NULL," +
                 "endividado BOOLEAN NOT NULL," +
                 "divida REAL" +
                 ");";
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql)){
-            stmt.execute();
-            System.out.println("Tabela 'clientes' criada ou ja existe");
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
+        sqlBuscar = "SELECT * FROM clientes WHERE cpf = ?";
+        sqlInserir = "INSERT INTO clientes (cpf,nome,telefone,endividado,divida) VALUES (?,?,?,?,?)";
+        sqlRemover = "DELETE FROM clientes WHERE cpf = ?";
+        sqlUpdate = "UPDATE clientes SET nome = ?, telefone = ?, endividado = ?, divida = ? WHERE cpf = ?";
+        tabela = "clientes";
     }
 
-    public void inserirCliente(Cliente novoCliente){
-        String sql = "INSERT INTO clientes (cpf,nome,telefone,endividado,divida) VALUES (?,?,?,?,?)";
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql)){
-            stmt.setString(1, novoCliente.getId());
-            stmt.setString(2, novoCliente.getNome());
-            stmt.setString(3, novoCliente.getTelefone());
-            stmt.setBoolean( 4, novoCliente.temDivida());
-            stmt.setFloat(5, novoCliente.getDivida());
-            stmt.executeUpdate();
-            System.out.println("Cliente inserido com sucesso.");
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
+    @Override
+    public void configurarParametrosInsercao(PreparedStatement stmt, Cliente objeto) throws SQLException {
+        stmt.setString(1, objeto.getId());
+        stmt.setString(2, objeto.getNome());
+        stmt.setString(3, objeto.getTelefone());
+        stmt.setBoolean( 4, objeto.temDivida());
+        stmt.setFloat(5, objeto.getDivida());
     }
 
-    public List<Cliente> listarClientes(){
-        String sql = "SELECT * FROM clientes";
-        Cliente cliente = null;
-        ArrayList<Cliente> lista = new ArrayList<>();
-        try (PreparedStatement stmt = connection.prepareStatement(sql)){
-            ResultSet rs = stmt.executeQuery();
-            while(rs.next()){
-
-                cliente = new Cliente(
-                        rs.getString("cpf"),
-                        rs.getString("nome"),
-                        rs.getString("telefone")
-                );
-                boolean endividado = rs.getBoolean("endividado");
-                float divida = rs.getFloat("divida");
-
-                if(endividado && divida > 0){
-                    cliente.setDivida(divida);
-                }
-
-                lista.add(cliente);
-            }
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-
-        return lista;
+    @Override
+    public void configurarParametrosAtualizacao(PreparedStatement stmt, Cliente objeto) throws SQLException{
+        stmt.setString(1, objeto.getNome());
+        stmt.setString(2, objeto.getTelefone());
+        stmt.setBoolean(3, objeto.temDivida());
+        stmt.setFloat(4, objeto.getDivida());
+        stmt.setString(5, objeto.getId());
     }
 
-    public Cliente buscarClienteCPF(String cpf){
-        String sql = "SELECT * FROM clientes WHERE cpf = ?";
-        Cliente cliente = null;
+    @Override
+    public Cliente buscarNaTabela(ResultSet rs) throws SQLException{
+        Cliente cliente = new Cliente(
+                rs.getString("cpf"),
+                rs.getString("nome"),
+                rs.getString("telefone")
+        );
+        boolean endividado = rs.getBoolean("endividado");
+        float divida = rs.getFloat("divida");
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql)){
-            stmt.setString(1, cpf);
-            ResultSet rs = stmt.executeQuery();
-            if(rs.next()){
-                cliente = new Cliente(
-                        rs.getString("cpf"),
-                        rs.getString("nome"),
-                        rs.getString("telefone")
-                );
-                boolean endividado = rs.getBoolean("endividado");
-                float divida = rs.getFloat("divida");
-
-                if(endividado && divida > 0){
-                    cliente.setDivida(divida);
-                }
-
-            }
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
+        if(endividado && divida > 0){
+            cliente.setDivida(divida);
+        };
 
         return cliente;
     }
-
-    public void atualizarCliente(Cliente cliente){
-        String sql = "UPDATE clientes SET nome = ?, telefone = ?, endividado = ?, divida = ? WHERE cpf = ?";
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, cliente.getNome());
-            stmt.setString(2, cliente.getTelefone());
-            stmt.setBoolean(3, cliente.temDivida());
-            stmt.setFloat(4, cliente.getDivida());
-            stmt.setString(5, cliente.getId());
-            stmt.executeUpdate();
-            System.out.println("Cliente atualizado com sucesso.");
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-    }
-
-    public void removerCliente(String cpf){
-        String sql = "DELETE FROM clientes WHERE cpf = ?";
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, cpf);
-            stmt.executeUpdate();
-            System.out.println("Cliente removido com sucesso.");
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-    }
-
-    public void deletarTabelaClientes(){
-        try (Statement stmt = connection.createStatement()) {
-            stmt.execute("DROP TABLE clientes");
-            System.out.println("Tabela 'clientes' deletada");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
 }

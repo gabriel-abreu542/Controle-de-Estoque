@@ -1,21 +1,20 @@
 package dao;
 
 import model.Produto;
-import test.dao.ConexaoDBTest;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-public class ProdutoDAO {
-    private final Connection connection;
-
-    public ProdutoDAO(Connection conn){
-        connection = conn;
+public class ProdutoDAO extends ObjetoDAO<Produto>{
+    public ProdutoDAO(Connection conn) {
+        super(conn);
     }
 
-    public void criarTabelaProdutos(){
-        String sql = "CREATE TABLE IF NOT EXISTS produtos ("+
+    @Override
+    public void setSQL() {
+        sqlCriar = "CREATE TABLE IF NOT EXISTS produtos ("+
                 "id TEXT PRIMARY KEY," +
                 "nome TEXT NOT NULL," +
                 "desc TEXT," +
@@ -23,133 +22,50 @@ public class ProdutoDAO {
                 "precoCompra REAL NOT NULL," +
                 "precoVenda REAL NOT NULL" +
                 ");";
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql)){
-            stmt.execute();
-            System.out.println("Tabela 'produtos' criada ou já existe");
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
+        sqlInserir = "INSERT INTO produtos (id,nome,desc,tipo,precoCompra,precoVenda) VALUES (?,?,?,?,?,?)";
+        sqlBuscar = "SELECT * FROM produtos WHERE id = ?";
+        sqlRemover = "DELETE FROM produtos WHERE id = ?";
+        sqlUpdate = "UPDATE produtos SET nome = ?, desc = ?, tipo = ?, precoCompra = ?,precoVenda = ? WHERE id = ?";
+        tabela = "produtos";
     }
 
-    public void inserirProduto(Produto novoProduto){
-        String sql = "INSERT INTO produtos (id,nome,desc,tipo,precoCompra,precoVenda) VALUES (?,?,?,?,?,?)";
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql)){
-            stmt.setString(1, novoProduto.getId());
-            stmt.setString(2, novoProduto.getNome());
-            stmt.setString(3, novoProduto.getDesc());
-            stmt.setString(4, novoProduto.getTipo());
-            stmt.setFloat( 5, novoProduto.getPrecoCompra());
-            stmt.setFloat( 6, novoProduto.getPrecoVenda());
-            stmt.executeUpdate();
-            System.out.println("Produto inserido com sucesso.");
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
+    @Override
+    public void configurarParametrosInsercao(PreparedStatement stmt, Produto objeto) throws SQLException {
+        stmt.setString(1, objeto.getId());
+        stmt.setString(2, objeto.getNome());
+        stmt.setString(3, objeto.getDesc());
+        stmt.setString(4, objeto.getTipo());
+        stmt.setFloat( 5, objeto.getPrecoCompra());
+        stmt.setFloat( 6, objeto.getPrecoVenda());
     }
 
-    public List<Produto> listarProdutos(){
-        String sql = "SELECT * FROM produtos";
-        Produto p = null;
-        List<Produto> lista = new ArrayList<>();
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql)){
-            ResultSet rs = stmt.executeQuery();
-            while(rs.next()){
-
-                p = new Produto(
-                        rs.getString("id"),
-                        rs.getString("nome"),
-                        rs.getFloat("precoCompra"),
-                        rs.getFloat("precoVenda")
-                );
-                String desc = rs.getString("desc");
-                String tipo = rs.getString("tipo");
-                if(!desc.equals("")){
-                     p.setDesc(desc);
-                }
-                if(!tipo.equals("")){
-                    p.setTipo(tipo);
-                }
-
-                lista.add(p);
-            }
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-
-        return lista;
+    @Override
+    public void configurarParametrosAtualizacao(PreparedStatement stmt, Produto objeto) throws SQLException {
+        stmt.setString(1, objeto.getNome());
+        stmt.setString(2, objeto.getDesc());
+        stmt.setString(3, objeto.getTipo());
+        stmt.setFloat( 4, objeto.getPrecoCompra());
+        stmt.setFloat( 5, objeto.getPrecoVenda());
+        stmt.setString(6, objeto.getId());
     }
 
-    public Produto buscarProdutoId(String id){
-        String sql = "SELECT * FROM produtos WHERE id = ?";
-        Produto produto = null;
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql)){
-            stmt.setString(1, id);
-
-            ResultSet rs = stmt.executeQuery();
-            if(rs.next()){
-                produto = new Produto(
-                        rs.getString("id"),
-                        rs.getString("nome"),
-                        rs.getFloat("precoCompra"),
-                        rs.getFloat("precoVenda")
-                );
-                String desc = rs.getString("desc");
-                String tipo = rs.getString("tipo");
-                if(!desc.equals("")){
-                    produto.setDesc(desc);
-                }
-                if(!tipo.equals("")){
-                    produto.setTipo(tipo);
-                }
-
-            }
-        }catch (SQLException e){
-            e.printStackTrace();
+    @Override
+    public Produto buscarNaTabela(ResultSet rs) throws SQLException {
+        Produto produto = new Produto(
+                rs.getString("id"),
+                rs.getString("nome"),
+                rs.getFloat("precoCompra"),
+                rs.getFloat("precoVenda")
+        );
+        String desc = rs.getString("desc");
+        String tipo = rs.getString("tipo");
+        if(!desc.isEmpty()){
+            produto.setDesc(desc);
+        }
+        if(!tipo.isEmpty()){
+            produto.setTipo(tipo);
         }
 
         return produto;
     }
-
-    public void atualizarProduto(Produto produto){
-        String sql = "UPDATE produtos SET nome = ?, desc = ?, tipo = ?, precoCompra = ?,precoVenda = ? WHERE id = ?";
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, produto.getNome());
-            stmt.setString(2, produto.getDesc());
-            stmt.setString(3, produto.getTipo());
-            stmt.setFloat( 4, produto.getPrecoCompra());
-            stmt.setFloat( 5, produto.getPrecoVenda());
-            stmt.setString(6, produto.getId());
-            stmt.executeUpdate();
-            System.out.println("Produto atualizado com sucesso.");
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-    }
-
-    public void removerProduto(String id){
-        String sql = "DELETE FROM produtos WHERE id = ?";
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, id);
-            stmt.executeUpdate();
-            System.out.println("Produto removido com sucesso.");
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-    }
-
-    public void deletarTabelaProdutos(){
-        try (Statement stmt = connection.createStatement()) {
-            stmt.execute("DROP TABLE produtos");
-            System.out.println("Tabela 'produtos' deletada");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
 }

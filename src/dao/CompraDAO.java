@@ -96,7 +96,7 @@ public class CompraDAO {
             ResultSet rs = stmt.executeQuery();
             FornecedorDAO fornecedorDAO = new FornecedorDAO(connection);
             if(rs.next()){
-                Fornecedor fornecedor = fornecedorDAO.buscarFornecedorCNPJ(rs.getString("cnpjFornecedor"));
+                Fornecedor fornecedor = fornecedorDAO.buscarPorId(rs.getString("cnpjFornecedor"));
                 if (fornecedor != null) {
                     compra = new Compra(
                             rs.getString("id"),
@@ -115,9 +115,9 @@ public class CompraDAO {
         try(PreparedStatement stmt = connection.prepareStatement(sqlItens)){
             stmt.setString(1, id);
             ResultSet rs = stmt.executeQuery();
-            ProdutoDAO produtoDAO= new ProdutoDAO(connection);
+            ProdutoDAO produtoDAO = new ProdutoDAO(connection);
             while(rs.next()){
-                Produto produto = produtoDAO.buscarProdutoId(rs.getString("idProduto"));
+                Produto produto = produtoDAO.buscarPorId(rs.getString("idProduto"));
                 if(produto != null){
                     assert compra != null;
                     compra.adicionarItem(produto, rs.getInt("quantidade"));
@@ -143,7 +143,7 @@ public class CompraDAO {
             ResultSet rs = stmt.executeQuery();
             Fornecedor fornecedor = null;
             while (rs.next()){
-                fornecedor = fornecedorDAO.buscarFornecedorCNPJ(rs.getString("cnpjFornecedor"));
+                fornecedor = fornecedorDAO.buscarPorId(rs.getString("cnpjFornecedor"));
                 compra = new Compra(
                         rs.getString("id"),
                         fornecedor,
@@ -154,9 +154,9 @@ public class CompraDAO {
                 try(PreparedStatement stmt2 = connection.prepareStatement(sqlItens)){
                     stmt2.setString(1, compra.getId());
                     ResultSet rs2 = stmt2.executeQuery();
-                    ProdutoDAO produtoDAO= new ProdutoDAO(connection);
+                    ProdutoDAO produtoDAO = new ProdutoDAO(connection);
                     while(rs2.next()){
-                        Produto produto = produtoDAO.buscarProdutoId(rs2.getString("idProduto"));
+                        Produto produto = produtoDAO.buscarPorId(rs2.getString("idProduto"));
                         if(produto != null){
                             compra.adicionarItem(produto, rs2.getInt("quantidade"));
                         }

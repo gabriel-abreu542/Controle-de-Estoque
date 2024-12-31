@@ -1,7 +1,5 @@
 package test.dao;
 
-import model.Pagamento;
-import model.Transacao;
 import model.Usuario;
 import dao.UsuarioDAO;
 import org.junit.jupiter.api.AfterEach;
@@ -10,9 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,24 +18,24 @@ public class UsuarioDAOTest {
     public void setUp() throws SQLException {
         Connection connection = ConexaoDBTest.getConnection();
         usuarioDAO = new UsuarioDAO(connection);
-        usuarioDAO.criarTabelaUsuarios();
+        usuarioDAO.criarTabela();
         inserirUsuarios();
     }
 
     @AfterEach
     void tearDown() {
-        usuarioDAO.deletarTabelaUsuarios();
+        usuarioDAO.deletarTabela();
     }
 
     void inserirUsuarios() {
         Usuario usuario1 = new Usuario("1", "Gabriel", "senha123", true);
-        usuarioDAO.inserirUsuario(usuario1);
+        usuarioDAO.inserir(usuario1);
         Usuario usuario2 = new Usuario("2", "Maria", "senha@321", false);
-        usuarioDAO.inserirUsuario(usuario2);
+        usuarioDAO.inserir(usuario2);
         Usuario usuario3 = new Usuario("3", "Pedro", "senha_951", false);
-        usuarioDAO.inserirUsuario(usuario3);
+        usuarioDAO.inserir(usuario3);
 
-        Usuario usuarioBuscado = usuarioDAO.buscarUsuarioId("1");
+        Usuario usuarioBuscado = usuarioDAO.buscarPorId("1");
         assertNotNull(usuarioBuscado);
         assertEquals("Gabriel", usuarioBuscado.getNome());
         assertEquals("senha123", usuarioBuscado.getSenha());
@@ -49,7 +44,7 @@ public class UsuarioDAOTest {
 
     @Test
     void testListarUsuarios(){
-        for(Usuario u : usuarioDAO.listarUsuarios()){
+        for(Usuario u : usuarioDAO.listarTodos()){
             System.out.println(u.getNome());
         }
     }
@@ -57,13 +52,13 @@ public class UsuarioDAOTest {
     @Test
     void testRemoverUsuario(){
 
-        for(Usuario u : usuarioDAO.listarUsuarios()){
+        for(Usuario u : usuarioDAO.listarTodos()){
             System.out.println(u.getNome());
         }
 
-        usuarioDAO.removerUsuario("2");
+        usuarioDAO.remover("2");
 
-        for(Usuario u : usuarioDAO.listarUsuarios()){
+        for(Usuario u : usuarioDAO.listarTodos()){
             System.out.println(u.getNome());
         }
 
@@ -71,15 +66,15 @@ public class UsuarioDAOTest {
 
     @Test
     void testAtualizarUsuario(){
-        Usuario buscado = usuarioDAO.buscarUsuarioId("2");
+        Usuario buscado = usuarioDAO.buscarPorId("2");
         System.out.println(buscado.getNome());
         System.out.println("Senha = " + buscado.getSenha());
         System.out.println("Adm = " + buscado.isAdm());
 
         buscado.setAdm(true);
-        usuarioDAO.atualizarUsuario(buscado);
+        usuarioDAO.atualizar(buscado);
 
-        Usuario atualizado = usuarioDAO.buscarUsuarioId("2");
+        Usuario atualizado = usuarioDAO.buscarPorId("2");
         System.out.println(atualizado.getNome());
         System.out.println("Senha = " + atualizado.getSenha());
         System.out.println("Adm = " + atualizado.isAdm());

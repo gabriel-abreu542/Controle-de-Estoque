@@ -11,41 +11,38 @@ import java.util.ArrayList;
 
 public abstract class ObjetoDAO<T extends Cadastravel> {
     private final Connection connection;
-    private final String tabela;
-    private final String sqlCriar;
-    private final String sqlInserir;
-    private final String sqlRemover;
-    private final String sqlUpdate;
-    private String sqlBuscar;
+    protected String tabela;
+    protected String sqlCriar;
+    protected String sqlInserir;
+    protected String sqlRemover;
+    protected String sqlUpdate;
+    protected String sqlBuscar;
 
-    public ObjetoDAO(Connection conn, String t, String sqlC, String sqlI, String sqlR, String sqlU){
+    public ObjetoDAO(Connection conn){
         // recebe os comandos SQL para inserção, remoção e atualização de objetos cadastraveis na tabela
         connection = conn;
-        tabela = t;
-        sqlCriar = sqlC;
-        sqlInserir = sqlI;
-        sqlRemover = sqlR;
-        sqlUpdate = sqlU;
-        setSqlBuscar();
+        setSQL();
     }
+
+    public abstract void setSQL();
 
     public void setSqlBuscar() {
         this.sqlBuscar = "SELECT * FROM " + tabela + " WHERE id = ?";
     }
 
-    public abstract void configurarParametrosInsercao(PreparedStatement stmt, T objeto);
+    public abstract void configurarParametrosInsercao(PreparedStatement stmt, T objeto) throws SQLException;
 
-    public abstract void configurarParametrosRemocao(PreparedStatement stmt, T objeto);
+    public abstract void configurarParametrosAtualizacao(PreparedStatement stmt, T objeto) throws SQLException;
 
-    public abstract void configurarParametrosAtualizacao(PreparedStatement stmt, T objeto);
-
-    public abstract T buscarNaTabela(ResultSet rs);
+    public abstract T buscarNaTabela(ResultSet rs) throws SQLException;
 
     public void criarTabela(){
         try (PreparedStatement stmt = connection.prepareStatement(sqlCriar)){
             stmt.execute();
             System.out.println("Tabela '" + tabela + "' criada ou ja existe");
         }catch (SQLException e){
+            System.out.println("sqlCriar: " + sqlCriar);
+            System.out.println("Erro ao criar a tabela '" + tabela + "'");
             e.printStackTrace();
         }
     }
@@ -53,9 +50,11 @@ public abstract class ObjetoDAO<T extends Cadastravel> {
     public void inserir(T objeto){
         try (PreparedStatement stmt = connection.prepareStatement(sqlInserir)){
             configurarParametrosInsercao(stmt, objeto);
+            System.out.println("Stmt: " + stmt.toString());
             stmt.executeUpdate();
             System.out.println("Inserção na tabela '" + tabela + "' com sucesso");
         }catch (SQLException e){
+            System.out.println("Erro ao inserir na tabela'" + tabela + "'");
             e.printStackTrace();
         }
     }
@@ -65,13 +64,15 @@ public abstract class ObjetoDAO<T extends Cadastravel> {
         ArrayList<T> lista = new ArrayList<>();
         T objeto = null;
 
-        try (PreparedStatement stmt = connection.prepareStatement(sqlBuscar)){
+        try (PreparedStatement stmt = connection.prepareStatement(sql)){
+            System.out.println("Stmt: " + stmt.toString());
             ResultSet rs = stmt.executeQuery();
             while(rs.next()){
                 objeto = buscarNaTabela(rs);
                 lista.add(objeto);
             }
         }catch (SQLException e){
+            System.out.println("Erro ao listar registros da tabela '" + tabela + "'");
             e.printStackTrace();
         }
         return lista;
@@ -83,13 +84,14 @@ public abstract class ObjetoDAO<T extends Cadastravel> {
 
         try (PreparedStatement stmt = connection.prepareStatement(sqlBuscar)){
             stmt.setString(1, id);
-
+            System.out.println("Stmt: " + stmt.toString());
             ResultSet rs = stmt.executeQuery();
             if(rs.next()){
                 objeto = buscarNaTabela(rs);
             }
         }catch (SQLException e){
             e.printStackTrace();
+            System.out.println("Erro ao buscar objeto na tabela '" + tabela + "'");
         }
 
         return objeto;
@@ -98,20 +100,24 @@ public abstract class ObjetoDAO<T extends Cadastravel> {
     public void atualizar(T objeto){
         try (PreparedStatement stmt = connection.prepareStatement(sqlUpdate)) {
             configurarParametrosAtualizacao(stmt, objeto);
+            System.out.println("Stmt: " + stmt.toString());
             stmt.executeUpdate();
             System.out.println("Instância em '" + tabela + "' atualizada com sucesso.");
         } catch (SQLException e){
             e.printStackTrace();
+            System.out.println("Erro ao atualizar registro na tabela '" + tabela + "'");
         }
     }
 
     public void remover(String id){
         try (PreparedStatement stmt = connection.prepareStatement(sqlRemover)) {
             stmt.setString(1, id);
+            System.out.println("Stmt: " + stmt.toString());
             stmt.executeUpdate();
             System.out.println("Instância em '" + tabela + "' removida com sucesso.");
         } catch (SQLException e){
             e.printStackTrace();
+            System.out.println("Erro ao remover registro da tabela '" + tabela + "'");
         }
     }
 
@@ -122,6 +128,7 @@ public abstract class ObjetoDAO<T extends Cadastravel> {
             System.out.println("Tabela '" + tabela + "' deletada");
         }catch (SQLException e){
             e.printStackTrace();
+            System.out.println("Erro ao deletar a tabela '" + tabela + "'");
         }
     }
 }

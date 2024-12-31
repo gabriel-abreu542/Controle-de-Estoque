@@ -23,16 +23,16 @@ public class VendaDAOTest {
         vendaDAO.criarTabelasVendas();
         ClienteDAO clienteDAO = new ClienteDAO(connection);
         ProdutoDAO produtoDAO = new ProdutoDAO(connection);
-        clienteDAO.criarTabelaClientes();
-        produtoDAO.criarTabelaProdutos();
+        clienteDAO.criarTabela();
+        produtoDAO.criarTabela();
 
         Cliente cliente1 = new Cliente("C1", "Gabriel", "9999-9999");
-        clienteDAO.inserirCliente(cliente1);
+        clienteDAO.inserir(cliente1);
 
         Produto produto1 = new Produto("P1","Parafuso", 0.50f, 1.00f);
         Produto produto2 = new Produto("P2","Cimento", 15.00f, 30.00f);
-        produtoDAO.inserirProduto(produto1);
-        produtoDAO.inserirProduto(produto2);
+        produtoDAO.inserir(produto1);
+        produtoDAO.inserir(produto2);
 
         Venda venda1 = new Venda("V1", cliente1, "DINHEIRO");
         venda1.adicionarItem(produto1, 30);
@@ -40,12 +40,12 @@ public class VendaDAOTest {
         vendaDAO.inserirVenda(venda1);
 
         Cliente cliente2 = new Cliente("C2", "João", "8888-8888");
-        clienteDAO.inserirCliente(cliente2);
+        clienteDAO.inserir(cliente2);
 
         Produto produto3 = new Produto("P3", "Tijolo", 2.00f, 3.50f);
         Produto produto4 = new Produto("P4", "Areia", 10.00f, 25.00f);
-        produtoDAO.inserirProduto(produto3);
-        produtoDAO.inserirProduto(produto4);
+        produtoDAO.inserir(produto3);
+        produtoDAO.inserir(produto4);
 
         Venda venda2 = new Venda("V2", cliente2, "CREDITO");
         venda2.adicionarItem(produto3, 50);
@@ -64,8 +64,8 @@ public class VendaDAOTest {
         vendaDAO.deletarTabelasVendas();
         ProdutoDAO produtoDAO = new ProdutoDAO(connection);
         ClienteDAO clienteDAO = new ClienteDAO(connection);
-        produtoDAO.deletarTabelaProdutos();
-        clienteDAO.deletarTabelaClientes();
+        produtoDAO.deletarTabela();
+        clienteDAO.deletarTabela();
     }
 
     @Test

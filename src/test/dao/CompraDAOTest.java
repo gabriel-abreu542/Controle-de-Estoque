@@ -3,7 +3,6 @@ package test.dao;
 import dao.FornecedorDAO;
 import dao.CompraDAO;
 import dao.ProdutoDAO;
-import dao.VendaDAO;
 import model.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,16 +23,16 @@ public class CompraDAOTest {
         compraDAO.criarTabelasCompras();
         FornecedorDAO fornecedorDAO = new FornecedorDAO(connection);
         ProdutoDAO produtoDAO = new ProdutoDAO(connection);
-        fornecedorDAO.criarTabelaFornecedores();
-        produtoDAO.criarTabelaProdutos();
+        fornecedorDAO.criarTabela();
+        produtoDAO.criarTabela();
 
         Fornecedor fornecedor1 = new Fornecedor("12345", "Empresa A", "12349999", "contato@empresaA.br", "Rua A");
-        fornecedorDAO.inserirFornecedor(fornecedor1);
+        fornecedorDAO.inserir(fornecedor1);
 
         Produto produto1 = new Produto("P1","Parafuso", 0.50f, 1.00f);
         Produto produto2 = new Produto("P2","Cimento", 15.00f, 30.00f);
-        produtoDAO.inserirProduto(produto1);
-        produtoDAO.inserirProduto(produto2);
+        produtoDAO.inserir(produto1);
+        produtoDAO.inserir(produto2);
 
         Compra compra1 = new Compra("Compra1", fornecedor1, "DINHEIRO");
         compra1.adicionarItem(produto1, 30);
@@ -41,12 +40,12 @@ public class CompraDAOTest {
         compraDAO.inserirCompra(compra1);
 
         Fornecedor fornecedor2 = new Fornecedor("25431", "Empresa B", "1234321", "contato@empresaB.br", "Rua B");
-        fornecedorDAO.inserirFornecedor(fornecedor2);
+        fornecedorDAO.inserir(fornecedor2);
 
         Produto produto3 = new Produto("P3", "Tijolo", 2.00f, 3.50f);
         Produto produto4 = new Produto("P4", "Areia", 10.00f, 25.00f);
-        produtoDAO.inserirProduto(produto3);
-        produtoDAO.inserirProduto(produto4);
+        produtoDAO.inserir(produto3);
+        produtoDAO.inserir(produto4);
 
         Compra compra2 = new Compra("Compra2", fornecedor2, "CREDITO");
         compra2.adicionarItem(produto3, 50);
@@ -65,8 +64,8 @@ public class CompraDAOTest {
         compraDAO.deletarTabelasCompras();
         ProdutoDAO produtoDAO = new ProdutoDAO(connection);
         FornecedorDAO fornecedorDAO = new FornecedorDAO(connection);
-        produtoDAO.deletarTabelaProdutos();
-        fornecedorDAO.deletarTabelaFornecedores();
+        produtoDAO.deletarTabela();
+        fornecedorDAO.deletarTabela();
     }
 
     @Test
@@ -86,7 +85,7 @@ public class CompraDAOTest {
     @Test
     public void testRemoverCompra(){
         compraDAO.removerCompra("Compra3");
-        Compra buscada = compraDAO.buscarCompraId("V3");
+        Compra buscada = compraDAO.buscarCompraId("Compra3");
         assertNull(buscada);
     }
 }
