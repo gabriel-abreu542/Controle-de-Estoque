@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public abstract class ObjetoDAO<T extends Cadastravel> {
-    private final Connection connection;
+    protected final Connection connection;
     protected String tabela;
     protected String sqlCriar;
     protected String sqlInserir;
