@@ -1,14 +1,57 @@
 package service;
 
+import dao.ObjetoDAO;
 import model.Cadastravel;
 
 import java.util.List;
 
-public abstract interface Cadastro<T extends Cadastravel> {
-    public abstract void adicionar(T item);
-    public abstract T buscarPorId(String id);
-    public abstract List<T> listarTodos();
-    public abstract void atualizar(T item);
-    public abstract void deletar(String id);
+public abstract class Cadastro<T extends Cadastravel> {
+    final ObjetoDAO<T> dao;
+
+    public abstract boolean regraInsercao(T item) throws IllegalArgumentException;
+
+    public abstract boolean regraAtualizacao(T item) throws IllegalArgumentException;
+
+    public Cadastro(ObjetoDAO dao){
+        this.dao = dao;
+    }
+
+    public void adicionar(T item) {
+        try {
+            if(regraInsercao(item))
+                dao.inserir(item);
+        }
+        catch (IllegalArgumentException e){
+            System.out.println("Erro ao inserir: " + e.getMessage());
+        }
+    }
+
+    public T buscarPorId(String id){
+        return dao.buscarPorId(id);
+    }
+
+    public List<T> listarTodos() {
+        return dao.listarTodos();
+    }
+
+    public void atualizar(T item){
+        try {
+            if(regraAtualizacao(item))
+                dao.atualizar(item);
+        }
+        catch (IllegalArgumentException e){
+            System.out.println("Erro ao atualizar: " + e.getMessage());
+        }
+    }
+    public void deletar(String id){
+        T item = dao.buscarPorId(id);
+
+        if (item == null){
+            System.out.println("id " + id + " não foi encontrado");
+        }
+        else{
+            dao.remover(id);
+        }
+    }
 
 }

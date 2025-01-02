@@ -50,9 +50,8 @@ public abstract class ObjetoDAO<T extends Cadastravel> {
     public void inserir(T objeto){
         try (PreparedStatement stmt = connection.prepareStatement(sqlInserir)){
             configurarParametrosInsercao(stmt, objeto);
-            System.out.println("Stmt: " + stmt.toString());
             stmt.executeUpdate();
-            System.out.println("Inserção na tabela '" + tabela + "' com sucesso");
+            System.out.println("Inserção na tabela '" + tabela + "' feita com sucesso");
         }catch (SQLException e){
             System.out.println("Erro ao inserir na tabela'" + tabela + "'");
             e.printStackTrace();
@@ -84,7 +83,6 @@ public abstract class ObjetoDAO<T extends Cadastravel> {
 
         try (PreparedStatement stmt = connection.prepareStatement(sqlBuscar)){
             stmt.setString(1, id);
-            System.out.println("Stmt: " + stmt.toString());
             ResultSet rs = stmt.executeQuery();
             if(rs.next()){
                 objeto = buscarNaTabela(rs);
@@ -100,7 +98,6 @@ public abstract class ObjetoDAO<T extends Cadastravel> {
     public void atualizar(T objeto){
         try (PreparedStatement stmt = connection.prepareStatement(sqlUpdate)) {
             configurarParametrosAtualizacao(stmt, objeto);
-            System.out.println("Stmt: " + stmt.toString());
             stmt.executeUpdate();
             System.out.println("Instância em '" + tabela + "' atualizada com sucesso.");
         } catch (SQLException e){

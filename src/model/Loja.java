@@ -1,5 +1,10 @@
 package model;
 
+import dao.ClienteDAO;
+import dao.ConexaoDB;
+import service.CadastroClientes;
+
+import java.util.ArrayList;
 import java.util.Map;
 
 public class Loja {
@@ -8,6 +13,7 @@ public class Loja {
     private boolean matriz;
     private final Estoque estoque;
     private final HistoricoTransacoes historico;
+    private ArrayList<Cliente> clientes;
 
     public Loja(String n, String end, boolean ehMatriz){
         nome = n;
@@ -15,6 +21,8 @@ public class Loja {
         matriz = ehMatriz;
         estoque = new Estoque();
         historico = new HistoricoTransacoes();
+        clientes = new ArrayList<Cliente>();
+
     }
 
     // Objeto Compra será "cadastrado" em uma tela antes de ser passado para essa função

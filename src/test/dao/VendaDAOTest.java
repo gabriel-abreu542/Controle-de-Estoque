@@ -20,7 +20,7 @@ public class VendaDAOTest {
     public void setUp() throws SQLException {
         Connection connection = ConexaoDBTest.getConnection();
         vendaDAO = new VendaDAO(connection);
-        vendaDAO.criarTabelasVendas();
+        vendaDAO.criarTabela();
         ClienteDAO clienteDAO = new ClienteDAO(connection);
         ProdutoDAO produtoDAO = new ProdutoDAO(connection);
         clienteDAO.criarTabela();
@@ -37,7 +37,7 @@ public class VendaDAOTest {
         Venda venda1 = new Venda("V1", cliente1, "DINHEIRO");
         venda1.adicionarItem(produto1, 30);
         venda1.adicionarItem(produto2, 3);
-        vendaDAO.inserirVenda(venda1);
+        vendaDAO.inserir(venda1);
 
         Cliente cliente2 = new Cliente("C2", "João", "8888-8888");
         clienteDAO.inserir(cliente2);
@@ -50,18 +50,18 @@ public class VendaDAOTest {
         Venda venda2 = new Venda("V2", cliente2, "CREDITO");
         venda2.adicionarItem(produto3, 50);
         venda2.adicionarItem(produto4, 10);
-        vendaDAO.inserirVenda(venda2);
+        vendaDAO.inserir(venda2);
 
         Venda venda3 = new Venda("V3", cliente2, "PIX");
         venda3.adicionarItem(produto4, 5);
-        vendaDAO.inserirVenda(venda3);
+        vendaDAO.inserir(venda3);
 
     }
 
     @AfterEach
     void tearDown() throws SQLException{
         Connection connection = ConexaoDBTest.getConnection();
-        vendaDAO.deletarTabelasVendas();
+        vendaDAO.deletarTabela();
         ProdutoDAO produtoDAO = new ProdutoDAO(connection);
         ClienteDAO clienteDAO = new ClienteDAO(connection);
         produtoDAO.deletarTabela();
@@ -70,22 +70,27 @@ public class VendaDAOTest {
 
     @Test
     public void testBuscarVendaId(){
-        Venda buscada = vendaDAO.buscarVendaId("V1");
+        Venda buscada = (Venda) vendaDAO.buscarPorId("V1");
         System.out.println(buscada);
     }
 
     @Test
     public void testListarVendas(){
-        for (Venda v : vendaDAO.listarVendas()){
-            System.out.println();
+        for (Transacao v : vendaDAO.listarTodos()){
+            System.out.println("Item:");
             System.out.println(v);
         }
     }
 
     @Test
     public void testRemoverVenda(){
-        vendaDAO.removerVenda("V3");
-        Venda buscada = vendaDAO.buscarVendaId("V3");
+        vendaDAO.remover("V3");
+        Venda buscada = (Venda) vendaDAO.buscarPorId("V3");
         assertNull(buscada);
+    }
+
+    @Test
+    public void testAtualizarVenda(){
+
     }
 }

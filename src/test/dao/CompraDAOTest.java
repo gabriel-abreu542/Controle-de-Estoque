@@ -20,7 +20,7 @@ public class CompraDAOTest {
     public void setUp() throws SQLException {
         Connection connection = ConexaoDBTest.getConnection();
         compraDAO = new CompraDAO(connection);
-        compraDAO.criarTabelasCompras();
+        compraDAO.criarTabela();
         FornecedorDAO fornecedorDAO = new FornecedorDAO(connection);
         ProdutoDAO produtoDAO = new ProdutoDAO(connection);
         fornecedorDAO.criarTabela();
@@ -37,7 +37,7 @@ public class CompraDAOTest {
         Compra compra1 = new Compra("Compra1", fornecedor1, "DINHEIRO");
         compra1.adicionarItem(produto1, 30);
         compra1.adicionarItem(produto2, 3);
-        compraDAO.inserirCompra(compra1);
+        compraDAO.inserir(compra1);
 
         Fornecedor fornecedor2 = new Fornecedor("25431", "Empresa B", "1234321", "contato@empresaB.br", "Rua B");
         fornecedorDAO.inserir(fornecedor2);
@@ -50,18 +50,18 @@ public class CompraDAOTest {
         Compra compra2 = new Compra("Compra2", fornecedor2, "CREDITO");
         compra2.adicionarItem(produto3, 50);
         compra2.adicionarItem(produto4, 10);
-        compraDAO.inserirCompra(compra2);
+        compraDAO.inserir(compra2);
 
         Compra compra3 = new Compra("Compra3", fornecedor2, "PIX");
         compra3.adicionarItem(produto4, 5);
-        compraDAO.inserirCompra(compra3);
+        compraDAO.inserir(compra3);
 
     }
 
     @AfterEach
     void tearDown() throws SQLException{
         Connection connection = ConexaoDBTest.getConnection();
-        compraDAO.deletarTabelasCompras();
+        compraDAO.deletarTabela();
         ProdutoDAO produtoDAO = new ProdutoDAO(connection);
         FornecedorDAO fornecedorDAO = new FornecedorDAO(connection);
         produtoDAO.deletarTabela();
@@ -70,13 +70,13 @@ public class CompraDAOTest {
 
     @Test
     public void testBuscarCompraId(){
-        Compra buscada = compraDAO.buscarCompraId("Compra1");
+        Compra buscada = (Compra) compraDAO.buscarPorId("Compra1");
         System.out.println(buscada);
     }
 
     @Test
     public void testListarCompras(){
-        for (Compra v : compraDAO.listarCompras()){
+        for (Transacao v : compraDAO.listarTodos()){
             System.out.println();
             System.out.println(v);
         }
@@ -84,8 +84,8 @@ public class CompraDAOTest {
 
     @Test
     public void testRemoverCompra(){
-        compraDAO.removerCompra("Compra3");
-        Compra buscada = compraDAO.buscarCompraId("Compra3");
+        compraDAO.remover("Compra3");
+        Compra buscada = (Compra) compraDAO.buscarPorId("Compra3");
         assertNull(buscada);
     }
 }
