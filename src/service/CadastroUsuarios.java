@@ -17,7 +17,7 @@ public class CadastroUsuarios extends Cadastro<Usuario> {
             throw new IllegalArgumentException("Nome do usuario deve ter no mínimo 3 caracteres");
         }
         Usuario u = dao.buscarPorId(item.getId());
-        if (u == null){
+        if (u != null){
             throw new IllegalArgumentException("Já existe um usuário com esse Id");
         }
 
@@ -29,6 +29,18 @@ public class CadastroUsuarios extends Cadastro<Usuario> {
         if(item.getNome() == null || item.getNome().length() < 3){
             throw new IllegalArgumentException("Nome do usuario deve ter no mínimo 3 caracteres");
         }
+
+        String id = item.getId();
+
+        Usuario anterior = dao.buscarPorId(id);
+        if(anterior == null){
+            System.out.println("Nenhum usuario encontrado com o id " + id);
+            return false;
+        }
+
+//        if (item.isAdm() && !anterior.isAdm()){
+//            //pedir chave de administrador
+//        }
 
         return true;
     }

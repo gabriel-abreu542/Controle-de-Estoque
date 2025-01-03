@@ -13,7 +13,6 @@ public abstract class TransacaoDAO extends ObjetoDAO<Transacao>{
     protected String sqlBuscarItens;
     protected String sqlInserirItem;
     protected String sqlRemoverDeItens;
-    protected ObjetoDAO objetoDAO;
 
 
     public TransacaoDAO(Connection conn) {
