@@ -9,6 +9,8 @@ import java.sql.SQLException;
 
 public class UsuarioDAO extends ObjetoDAO<Usuario>{
 
+    String sqlBuscarNomeSenha;
+
     public UsuarioDAO(Connection conn) {
         super(conn);
     }
@@ -23,6 +25,7 @@ public class UsuarioDAO extends ObjetoDAO<Usuario>{
                 ");";
         sqlInserir = "INSERT INTO usuarios (id,nome,senha,adm) VALUES (?,?,?,?)";
         sqlBuscar = "SELECT * FROM usuarios WHERE id = ?";
+        sqlBuscarNomeSenha = "SELECT * FROM usuarios WHERE nome = ? AND senha = ?";
         sqlUpdate = "UPDATE usuarios SET nome = ?, senha = ?, adm = ? WHERE id = ?";
         sqlRemover = "DELETE FROM usuarios WHERE id = ?";
         tabela = "usuarios";
@@ -39,6 +42,24 @@ public class UsuarioDAO extends ObjetoDAO<Usuario>{
     @Override
     public void configurarParametrosAtualizacao(PreparedStatement stmt, Usuario objeto) throws SQLException {
 
+    }
+
+    public Usuario buscarNomeSenha(String nome, String senha) {
+        Usuario usuario = null;
+
+        try (PreparedStatement stmt = connection.prepareStatement(sqlBuscarNomeSenha)){
+            stmt.setString(1, nome);
+            stmt.setString(2, senha);
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()){
+                usuario = buscarNaTabela(rs);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+            System.out.println("Erro ao buscar usuario na tabela '" + tabela + "'");
+        }
+
+        return usuario;
     }
 
     @Override

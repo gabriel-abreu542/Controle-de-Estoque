@@ -1,14 +1,33 @@
 package service;
 
+import dao.ConexaoDB;
 import dao.UsuarioDAO;
 import model.Usuario;
 
-import java.util.List;
+import java.sql.SQLException;
 
 public class CadastroUsuarios extends Cadastro<Usuario> {
+    int idCounter;
 
-    public CadastroUsuarios(UsuarioDAO usuarioDAO) {
-        super(usuarioDAO);
+    public CadastroUsuarios() throws SQLException{
+        super();
+        idCounter = 0;
+    }
+
+    @Override
+    public void setDAO() throws SQLException {
+        this.dao = new UsuarioDAO(ConexaoDB.getConnection());
+    }
+
+    public String gerarNovoID() {
+        idCounter++;
+        return String.valueOf(idCounter);
+    }
+
+    public Usuario Login(String nome, String senha){
+        this.dao = (UsuarioDAO)dao;
+
+        return ((UsuarioDAO) dao).buscarNomeSenha(nome,senha);
     }
 
     @Override
@@ -37,10 +56,6 @@ public class CadastroUsuarios extends Cadastro<Usuario> {
             System.out.println("Nenhum usuario encontrado com o id " + id);
             return false;
         }
-
-//        if (item.isAdm() && !anterior.isAdm()){
-//            //pedir chave de administrador
-//        }
 
         return true;
     }

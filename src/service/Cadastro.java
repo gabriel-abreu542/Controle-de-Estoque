@@ -3,18 +3,21 @@ package service;
 import dao.ObjetoDAO;
 import model.Cadastravel;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public abstract class Cadastro<T extends Cadastravel> {
-    final ObjetoDAO<T> dao;
+    ObjetoDAO<T> dao;
 
     public abstract boolean regraInsercao(T item) throws IllegalArgumentException;
 
     public abstract boolean regraAtualizacao(T item) throws IllegalArgumentException;
 
-    public Cadastro(ObjetoDAO dao){
-        this.dao = dao;
+    public Cadastro() throws SQLException {
+        setDAO();
     }
+
+    public abstract void setDAO() throws SQLException;
 
     public void adicionar(T item) {
         try {

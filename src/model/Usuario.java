@@ -40,4 +40,9 @@ public class Usuario implements Cadastravel {
     public void setAdm(boolean adm) {
         this.adm = adm;
     }
+
+    @Override
+    public String toString() {
+        return "id: " + getId() + "\nnome: " + getNome() + "\nsenha: " + getSenha() + "\nAdm: " + isAdm();
+    }
 }

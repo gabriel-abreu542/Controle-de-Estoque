@@ -8,14 +8,10 @@ public class ConexaoDB {
     private static String url = "jdbc:sqlite:baseDados.db";
     private static Connection connection = null;
 
-    public static Connection getConnection() {
+    public static Connection getConnection() throws SQLException{
         if (connection == null) {
-            try {
-                connection = DriverManager.getConnection(url);
-                System.out.println("Conexão com SQLite estabelecida.");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            connection = DriverManager.getConnection(url);
+            System.out.println("Conexão com SQLite estabelecida (baseDados.db).");
         }
         return connection;
     }

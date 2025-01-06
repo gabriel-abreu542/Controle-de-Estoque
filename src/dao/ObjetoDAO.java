@@ -19,16 +19,11 @@ public abstract class ObjetoDAO<T extends Cadastravel> {
     protected String sqlBuscar;
 
     public ObjetoDAO(Connection conn){
-        // recebe os comandos SQL para inserção, remoção e atualização de objetos cadastraveis na tabela
         connection = conn;
         setSQL();
     }
 
     public abstract void setSQL();
-
-    public void setSqlBuscar() {
-        this.sqlBuscar = "SELECT * FROM " + tabela + " WHERE id = ?";
-    }
 
     public abstract void configurarParametrosInsercao(PreparedStatement stmt, T objeto) throws SQLException;
 
