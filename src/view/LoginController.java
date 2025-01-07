@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import service.CadastroUsuarios;
@@ -21,7 +22,14 @@ public class LoginController {
     private TextField senhaUsuario;
     @FXML
     private Button botaoCadastro;
-    private CadastroUsuarios cadastroUsuarios;
+    @FXML
+    private Button botaoLogin;
+
+    private final CadastroUsuarios cadastroUsuarios;
+
+    public LoginController() throws SQLException {
+        cadastroUsuarios = new CadastroUsuarios();
+    }
 
     @FXML
     void onLimparAction(ActionEvent event) {
@@ -30,9 +38,39 @@ public class LoginController {
     }
 
     @FXML
-    void onLoginAction(ActionEvent event) {
+    void onLoginAction(ActionEvent event) throws IOException {
         Usuario u = cadastroUsuarios.Login(nomeUsuario.getText(), senhaUsuario.getText());
+        if(u != null){
+            System.out.println("Cadastro deu certo! Usuário: ");
+            System.out.println(u);
+
+            try{
+                // Fechando a janela atual
+                Stage stageAtual = (Stage) botaoLogin.getScene().getWindow();
+                stageAtual.close();
+
+                // Carregando a tela inicial
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/TelaInicial.fxml"));
+                BorderPane root = loader.load();
+
+                // Obtendo o controlador da TelaInicial
+                TelaInicialController telaInicialController = loader.getController();
+
+                // Passando o nome do usuário para o controlador da TelaInicial
+                telaInicialController.setNomeUsuario(u.getNome()); // Aqui passamos o nome do usuário
+
+                // Criando a nova cena e o novo stage para a Tela Inicial
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                System.out.println("Erro ao abrir a tela inicial.");
+                e.printStackTrace();
+            }
+        }
     }
+
 
     @FXML
     void goToCadastro(ActionEvent event) throws SQLException {

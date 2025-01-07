@@ -66,6 +66,7 @@ public class CadastroController {
     void onLimparAction(ActionEvent event) {
         nomeUsuario.setText("");
         senhaUsuario.setText("");
+        confirmarSenha.setText("");
     }
 
 }

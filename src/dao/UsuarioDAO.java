@@ -41,7 +41,10 @@ public class UsuarioDAO extends ObjetoDAO<Usuario>{
 
     @Override
     public void configurarParametrosAtualizacao(PreparedStatement stmt, Usuario objeto) throws SQLException {
-
+        stmt.setString(1, objeto.getNome());
+        stmt.setString(2, objeto.getSenha());
+        stmt.setBoolean( 3, objeto.isAdm());
+        stmt.setString(4, objeto.getId());
     }
 
     public Usuario buscarNomeSenha(String nome, String senha) {

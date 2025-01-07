@@ -1,5 +1,6 @@
 package test.dao;
 
+import dao.ConexaoDB;
 import model.Usuario;
 import dao.UsuarioDAO;
 import org.junit.jupiter.api.AfterEach;
@@ -16,9 +17,10 @@ public class UsuarioDAOTest {
 
     @BeforeEach
     public void setUp() throws SQLException {
-        Connection connection = ConexaoDBTest.getConnection();
+        Connection connection = ConexaoDB.getConnection();
         usuarioDAO = new UsuarioDAO(connection);
         usuarioDAO.criarTabela();
+        usuarioDAO.remover("1");
         inserirUsuarios();
     }
 
@@ -47,6 +49,13 @@ public class UsuarioDAOTest {
         for(Usuario u : usuarioDAO.listarTodos()){
             System.out.println(u.getNome());
         }
+    }
+
+    @Test
+    void testBuscarNomeSenha(){
+        Usuario buscado = usuarioDAO.buscarNomeSenha("Gabriel", "senha123");
+        assertNotNull(buscado);
+        System.out.println(buscado);
     }
 
     @Test
@@ -79,6 +88,5 @@ public class UsuarioDAOTest {
         System.out.println("Senha = " + atualizado.getSenha());
         System.out.println("Adm = " + atualizado.isAdm());
     }
-
 
 }

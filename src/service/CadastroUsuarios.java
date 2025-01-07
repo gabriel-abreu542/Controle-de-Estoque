@@ -7,11 +7,11 @@ import model.Usuario;
 import java.sql.SQLException;
 
 public class CadastroUsuarios extends Cadastro<Usuario> {
-    int idCounter;
+    private static int idCounter = 0;
 
     public CadastroUsuarios() throws SQLException{
         super();
-        idCounter = 0;
+        dao.criarTabela();
     }
 
     @Override
@@ -25,8 +25,6 @@ public class CadastroUsuarios extends Cadastro<Usuario> {
     }
 
     public Usuario Login(String nome, String senha){
-        this.dao = (UsuarioDAO)dao;
-
         return ((UsuarioDAO) dao).buscarNomeSenha(nome,senha);
     }
 
