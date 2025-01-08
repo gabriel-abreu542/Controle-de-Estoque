@@ -29,6 +29,20 @@ public abstract class ObjetoDAO<T extends Cadastravel> {
 
     public abstract void configurarParametrosAtualizacao(PreparedStatement stmt, T objeto) throws SQLException;
 
+    public String ultimoId() throws SQLException{
+        String ultimo = "";
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT MAX(id) FROM " + tabela)){
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()){
+                ultimo = rs.getString(1);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+            System.out.println("Erro ao buscar ultimo id em '" + tabela + "'");
+        }
+        return ultimo;
+    }
+
     public abstract T buscarNaTabela(ResultSet rs) throws SQLException;
 
     public void criarTabela(){

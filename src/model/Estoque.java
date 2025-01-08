@@ -10,7 +10,7 @@ public class Estoque {
     }
 
     public HashMap<Produto, Integer> getEstoque() {
-        return estoque;
+        return new HashMap<Produto, Integer>(estoque); //retorna uma cópia do estoque
     }
 
     public Produto buscarProduto(String nome){

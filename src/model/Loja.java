@@ -1,13 +1,10 @@
 package model;
 
-import dao.ClienteDAO;
-import dao.ConexaoDB;
-import service.CadastroClientes;
-
 import java.util.ArrayList;
 import java.util.Map;
 
-public class Loja {
+public class Loja implements Cadastravel{
+    private String id;
     private String nome;
     private String endereco;
     private boolean matriz;
@@ -15,15 +12,16 @@ public class Loja {
     private final HistoricoTransacoes historico;
     private ArrayList<Cliente> clientes;
 
-    public Loja(String n, String end, boolean ehMatriz){
+    public Loja(String id, String n, String end, boolean ehMatriz){
+        this.id = id;
         nome = n;
         endereco = end;
         matriz = ehMatriz;
         estoque = new Estoque();
         historico = new HistoricoTransacoes();
         clientes = new ArrayList<Cliente>();
-
     }
+
 
     // Objeto Compra será "cadastrado" em uma tela antes de ser passado para essa função
     public boolean realizarCompra(Compra compra){
@@ -75,6 +73,15 @@ public class Loja {
         return this.nome;
     }
 
+    @Override
+    public String getId(){
+        return this.id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getEndereco(){
         return this.endereco;
     }
@@ -102,4 +109,6 @@ public class Loja {
     public HistoricoTransacoes getHistorico() {
         return historico;
     }
+
+
 }

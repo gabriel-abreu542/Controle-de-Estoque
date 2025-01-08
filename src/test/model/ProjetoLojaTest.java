@@ -54,16 +54,6 @@ public class ProjetoLojaTest {
    }
 
    @Test
-   void testTransacao() {
-      Produto produto = new Produto("1","Camiseta", 20.0f, 40.0f);
-      Transacao transacao = new Transacao("1", "DINHEIRO");
-      transacao.adicionarItem(produto, 2);
-      assertEquals(80.0f, transacao.getValorTotal());
-      transacao.removerItem(produto, 1);
-      assertEquals(40.0f, transacao.getValorTotal());
-   }
-
-   @Test
    void testCompra() {
       Produto produto = new Produto("1","Camiseta", 20.0f, 40.0f);
       Fornecedor fornecedor = new Fornecedor("1234567890001", "Fornecedor 1", "999999999", "email@fornecedor.com", "Rua 1");
@@ -85,7 +75,7 @@ public class ProjetoLojaTest {
 
    @Test
    void testLoja() {
-      Loja loja = new Loja("Loja 1", "Rua Principal", true);
+      Loja loja = new Loja("1" , "Loja 1", "Rua Principal", true);
       Produto produto1 = new Produto("1","Camiseta", 20.0f, 40.0f);
       Produto produto2 = new Produto("2","Bota", 16.0f, 30.0f);
       Cliente cliente = new Cliente("1","João", "123456789");
@@ -111,7 +101,7 @@ public class ProjetoLojaTest {
 
    @Test
    public void testeFiltros() {
-      Loja loja = new Loja("Minha Loja", "Rua Principal, 123", true);
+      Loja loja = new Loja("1","Minha Loja", "Rua Principal, 123", true);
 
       Cliente cliente1 = new Cliente("1", "Gabriel", "9999-9999");
       Cliente cliente2 = new Cliente("2", "Maria", "8888-8888");

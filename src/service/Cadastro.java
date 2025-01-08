@@ -19,13 +19,14 @@ public abstract class Cadastro<T extends Cadastravel> {
 
     public abstract void setDAO() throws SQLException;
 
-    public void adicionar(T item) {
+    public void cadastrar(T item) throws IllegalArgumentException{
         try {
             if(regraInsercao(item))
                 dao.inserir(item);
+            else throw new IllegalArgumentException("");
         }
         catch (IllegalArgumentException e){
-            System.out.println("Erro ao inserir: " + e.getMessage());
+            System.out.println("Erro ao cadastrar: " + e.getMessage());
         }
     }
 

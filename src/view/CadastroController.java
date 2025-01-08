@@ -5,6 +5,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -17,13 +19,15 @@ import java.sql.SQLException;
 public class CadastroController {
     private CadastroUsuarios cadastroUsuarios;
     @FXML
-    private TextField confirmarSenha;
+    private PasswordField confirmarSenha;
     @FXML
     private TextField nomeUsuario;
     @FXML
-    private TextField senhaUsuario;
+    private PasswordField senhaUsuario;
     @FXML
     private Button botaoLogin;
+    @FXML
+    private CheckBox usuarioAdm;
 
     public CadastroController() throws SQLException {
         cadastroUsuarios = new CadastroUsuarios();
@@ -54,8 +58,13 @@ public class CadastroController {
     @FXML
     void onCadastroAction(ActionEvent event) {
         if(senhaUsuario.getText().equals(confirmarSenha.getText())) {
-            Usuario u = new Usuario(cadastroUsuarios.gerarNovoID(), nomeUsuario.getText(), senhaUsuario.getText(), true);
-            cadastroUsuarios.adicionar(u);
+            try{
+                Usuario cadastrado = cadastroUsuarios.criarUsuario(nomeUsuario.getText(), senhaUsuario.getText(), usuarioAdm.isSelected());
+                System.out.println("Usuario cadastrado:\n" + cadastrado);
+            } catch (IllegalArgumentException e) {
+                System.out.println("ERRO: " + e.getMessage());
+            }
+
         }
         else{
             System.out.println("Senha não confirmada!!!");
