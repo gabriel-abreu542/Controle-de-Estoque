@@ -43,7 +43,7 @@ public class TelaInicialController extends Janela{
     @FXML
     void onNovaCompraAction(ActionEvent event) throws IOException {
         fecharJanela(botaoSair);
-        novoLayout("/NovaCompraController.fxml", "Nova Compra");
+        novoLayout("/NovaCompra.fxml", "Nova Compra");
     }
 
     @FXML

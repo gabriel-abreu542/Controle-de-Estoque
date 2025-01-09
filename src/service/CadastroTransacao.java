@@ -1,25 +1,42 @@
 package service;
 
-import dao.TransacaoDAO;
 import model.Transacao;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
-public class CadastroTransacao extends Cadastro<Transacao>{
-    public CadastroTransacao(TransacaoDAO dao) throws SQLException {
+public abstract class CadastroTransacao extends Cadastro<Transacao>{
+
+    public CadastroTransacao() throws SQLException {
         super();
+        dao.criarTabela();
+
     }
 
     @Override
-    public void setDAO() throws SQLException {
+    public abstract void setDAO() throws SQLException;
 
+    public abstract String nextId() throws SQLException;
+
+    public boolean transacaoOK(Transacao item) throws IllegalArgumentException{
+        if(item.getItens().isEmpty()){
+            throw new IllegalArgumentException("Nenhum item adicionado");
+        }
+        ArrayList<String> formasPagamento = new ArrayList<>();
+        formasPagamento.add("PIX");
+        formasPagamento.add("DINHEIRO");
+        formasPagamento.add("CREDITO");
+        formasPagamento.add("DEBITO");
+        if(formasPagamento.contains(item.getFormaPagamento())){
+            throw new IllegalArgumentException("Forma de pagamento " + item.getFormaPagamento() + " não reconhecida.");
+        }
+
+        return true;
     }
 
     @Override
     public boolean regraInsercao(Transacao item) throws IllegalArgumentException {
-
-
-        return false;
+        return true;
     }
 
     @Override

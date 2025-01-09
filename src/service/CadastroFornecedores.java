@@ -2,9 +2,8 @@ package service;
 
 import dao.ClienteDAO;
 import dao.FornecedorDAO;
-
 import model.Fornecedor;
-import test.dao.ConexaoDBTest;
+import dao.ConexaoDB;
 
 import java.sql.SQLException;
 
@@ -16,7 +15,7 @@ public class CadastroFornecedores extends Cadastro<Fornecedor>{
 
     @Override
     public void setDAO() throws SQLException {
-        this.dao = new FornecedorDAO(ConexaoDBTest.getConnection());
+        this.dao = new FornecedorDAO(ConexaoDB.getConnection());
     }
 
     @Override

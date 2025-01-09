@@ -4,6 +4,7 @@ import dao.ObjetoDAO;
 import model.Cadastravel;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Cadastro<T extends Cadastravel> {
@@ -28,6 +29,10 @@ public abstract class Cadastro<T extends Cadastravel> {
         catch (IllegalArgumentException e){
             System.out.println("Erro ao cadastrar: " + e.getMessage());
         }
+    }
+
+    public ArrayList<String> listarNomes(){
+        return new ArrayList<>(dao.ListarPorParametro("nome"));
     }
 
     public T buscarPorId(String id){

@@ -29,7 +29,7 @@ public abstract class ObjetoDAO<T extends Cadastravel> {
 
     public abstract void configurarParametrosAtualizacao(PreparedStatement stmt, T objeto) throws SQLException;
 
-    public String ultimoId() throws SQLException{
+    public String ultimoId(){
         String ultimo = "";
         try (PreparedStatement stmt = connection.prepareStatement("SELECT MAX(id) FROM " + tabela)){
             ResultSet rs = stmt.executeQuery();
@@ -39,6 +39,9 @@ public abstract class ObjetoDAO<T extends Cadastravel> {
         }catch (SQLException e){
             e.printStackTrace();
             System.out.println("Erro ao buscar ultimo id em '" + tabela + "'");
+        }
+        if(ultimo == null) {
+            ultimo = "000";
         }
         return ultimo;
     }
@@ -86,6 +89,25 @@ public abstract class ObjetoDAO<T extends Cadastravel> {
         return lista;
     }
 
+    public ArrayList<String> ListarPorParametro(String param){
+        String sql = "SELECT " + param + " FROM " + tabela + ";";
+        ArrayList<String> lista = new ArrayList<>();
+        String objeto = null;
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)){
+            System.out.println("Stmt: " + stmt.toString());
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                objeto = rs.getString(1);
+                lista.add(objeto);
+            }
+        }catch (SQLException e){
+            System.out.println("Erro ao listar registros da tabela '" + tabela + "'");
+            e.printStackTrace();
+        }
+        return lista;
+    }
+
     public T buscarPorId(String id){
 
         T objeto = null;
@@ -98,7 +120,7 @@ public abstract class ObjetoDAO<T extends Cadastravel> {
             }
         }catch (SQLException e){
             e.printStackTrace();
-            System.out.println("Erro ao buscar objeto na tabela '" + tabela + "'");
+            throw new IllegalArgumentException("Erro ao buscar objeto na tabela '" + tabela + "'");
         }
 
         return objeto;
@@ -136,5 +158,9 @@ public abstract class ObjetoDAO<T extends Cadastravel> {
             e.printStackTrace();
             System.out.println("Erro ao deletar a tabela '" + tabela + "'");
         }
+    }
+
+    public String getTabela() {
+        return tabela;
     }
 }

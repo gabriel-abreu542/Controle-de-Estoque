@@ -1,9 +1,9 @@
 package service;
 
 import dao.ClienteDAO;
+import dao.ConexaoDB;
 import dao.ProdutoDAO;
 import model.Produto;
-import test.dao.ConexaoDBTest;
 
 import java.sql.SQLException;
 
@@ -15,7 +15,7 @@ public class CadastroProduto extends Cadastro<Produto>{
 
     @Override
     public void setDAO() throws SQLException {
-        this.dao = new ProdutoDAO(ConexaoDBTest.getConnection());
+        this.dao = new ProdutoDAO(ConexaoDB.getConnection());
     }
 
     @Override

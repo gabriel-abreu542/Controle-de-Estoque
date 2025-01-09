@@ -2,7 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Spinner?>
@@ -13,7 +13,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
-
 
 <BorderPane prefHeight="400.0" prefWidth="566.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.NovaCompraController">
    <top>
@@ -65,37 +64,37 @@
                         <Insets />
                      </GridPane.margin>
                   </Label>
-                  <ChoiceBox fx:id="listaClientes" prefHeight="25.0" prefWidth="231.0" GridPane.columnIndex="1">
-                     <GridPane.margin>
-                        <Insets left="5.0" />
-                     </GridPane.margin>
-                  </ChoiceBox>
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="118.0" text="Novo Fornecedor" GridPane.columnIndex="2">
+                  <Button fx:id="botaoNovoFornecedor" mnemonicParsing="false" onAction="#onNovoFornecedorAction" prefHeight="25.0" prefWidth="118.0" text="Novo Fornecedor" GridPane.columnIndex="2">
                      <GridPane.margin>
                         <Insets left="15.0" />
                      </GridPane.margin>
                   </Button>
                   <Label text="Produto:" GridPane.rowIndex="1" />
-                  <ChoiceBox fx:id="listaProdutos" prefHeight="25.0" prefWidth="231.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                     <GridPane.margin>
-                        <Insets left="5.0" />
-                     </GridPane.margin>
-                  </ChoiceBox>
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="103.0" text="Novo Produto" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Button fx:id="botaoNovoProduto" mnemonicParsing="false" onAction="#onNovoProdutoAction" prefHeight="25.0" prefWidth="103.0" text="Novo Produto" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets left="20.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="103.0" text="Adicionar" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                  <Button fx:id="botaoAdicionar" mnemonicParsing="false" onAction="#onAdicionarAction" prefHeight="25.0" prefWidth="103.0" text="Adicionar" GridPane.columnIndex="2" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets left="25.0" />
                      </GridPane.margin>
                   </Button>
-                  <Spinner fx:id="quantidade" prefHeight="25.0" prefWidth="143.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                  <Spinner fx:id="quantidade" editable="true" prefHeight="25.0" prefWidth="143.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets left="5.0" />
                      </GridPane.margin>
                   </Spinner>
+                  <ComboBox fx:id="listaProdutos" prefHeight="25.0" prefWidth="230.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets left="5.0" />
+                     </GridPane.margin>
+                  </ComboBox>
+                  <ComboBox fx:id="listaFornecedores" prefHeight="25.0" prefWidth="232.0" GridPane.columnIndex="1">
+                     <GridPane.margin>
+                        <Insets left="5.0" />
+                     </GridPane.margin>
+                  </ComboBox>
                </children>
             </GridPane>
          </children>

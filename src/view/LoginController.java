@@ -25,9 +25,9 @@ public class LoginController {
     @FXML
     private Button botaoLogin;
 
-    private final CadastroUsuarios cadastroUsuarios;
+    private CadastroUsuarios cadastroUsuarios;
 
-    public LoginController() throws SQLException {
+    public void initialize() throws SQLException{
         cadastroUsuarios = new CadastroUsuarios();
     }
 

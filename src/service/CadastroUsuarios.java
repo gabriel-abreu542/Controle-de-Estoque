@@ -13,8 +13,9 @@ public class CadastroUsuarios extends Cadastro<Usuario>{
     public CadastroUsuarios() throws SQLException{
         super();
         dao.criarTabela();
-        contadorId = Integer.parseInt(dao.ultimoId().substring(7));
-        System.out.println(dao.ultimoId().substring(7));
+        String ultimoId = dao.ultimoId();
+        contadorId = Integer.parseInt(ultimoId.substring(ultimoId.length() - 3));
+        System.out.println("contadorId: " + contadorId);
     }
 
     @Override
