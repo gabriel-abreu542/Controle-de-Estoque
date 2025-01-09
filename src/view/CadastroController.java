@@ -16,7 +16,7 @@ import service.CadastroUsuarios;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class CadastroController {
+public class CadastroController extends Janela{
     private CadastroUsuarios cadastroUsuarios;
     @FXML
     private PasswordField confirmarSenha;
@@ -36,20 +36,9 @@ public class CadastroController {
     @FXML
     void goToLogin(ActionEvent event) {
         try {
-            // Fechando a janela atual
-            Stage stageAtual = (Stage) botaoLogin.getScene().getWindow();
-            stageAtual.close();
+            fecharJanela(botaoLogin);
 
-            // Carregando o novo layout
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login.fxml"));
-            BorderPane novaPagina = loader.load();
-
-            // Configurando o novo stage
-            Stage novoStage = new Stage();
-            Scene novaCena = new Scene(novaPagina);
-            novoStage.setScene(novaCena);
-            novoStage.setTitle("Nova Página");
-            novoStage.show();
+            novoLayout("/Login.fxml", "Login");
         } catch (IOException e) {
             e.printStackTrace();
         }
