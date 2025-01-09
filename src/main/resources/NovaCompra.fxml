@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -12,6 +13,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane prefHeight="400.0" prefWidth="566.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.NovaCompraController">
@@ -90,7 +92,7 @@
                         <Insets left="5.0" />
                      </GridPane.margin>
                   </ComboBox>
-                  <ComboBox fx:id="listaFornecedores" prefHeight="25.0" prefWidth="232.0" GridPane.columnIndex="1">
+                  <ComboBox fx:id="listaFornecedores" onInputMethodTextChanged="#onDigitandoCaixaAction" prefHeight="25.0" prefWidth="232.0" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets left="5.0" />
                      </GridPane.margin>
@@ -101,10 +103,31 @@
       </AnchorPane>
    </center>
    <bottom>
-      <ScrollPane prefHeight="189.0" prefWidth="533.0" BorderPane.alignment="CENTER">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-        </content>
-      </ScrollPane>
+      <VBox fx:id="vBoxCarrinho" BorderPane.alignment="CENTER">
+         <children>
+            <Label prefHeight="25.0" prefWidth="81.0" text="Carrinho:">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <ScrollPane fx:id="carrinho" prefHeight="127.0" prefWidth="566.0">
+               <content>
+                  <ChoiceBox fx:id="teste" prefWidth="150.0" />
+               </content>
+            </ScrollPane>
+            <HBox alignment="CENTER_RIGHT" prefHeight="70.0" prefWidth="566.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#onFinalizarCompraAction" prefHeight="35.0" prefWidth="155.0" text="Finalizar Compra">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
    </bottom>
 </BorderPane>

@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -19,7 +20,7 @@ public class LoginController {
     @FXML
     private TextField nomeUsuario;
     @FXML
-    private TextField senhaUsuario;
+    private PasswordField senhaUsuario;
     @FXML
     private Button botaoCadastro;
     @FXML
