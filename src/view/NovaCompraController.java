@@ -6,7 +6,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import model.Compra;
 import model.Fornecedor;
 import model.Produto;
 import service.CadastroCompra;
@@ -14,6 +16,7 @@ import service.CadastroFornecedores;
 import service.CadastroProduto;
 
 import java.awt.event.InputMethodEvent;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -35,6 +38,8 @@ public class NovaCompraController extends Janela{
     @FXML
     private Spinner<Integer> quantidade;
 
+    private Compra novaCompra;
+
     public void initialize() throws SQLException {
         quantidade.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1));
         quantidade.setEditable(true);
@@ -52,17 +57,23 @@ public class NovaCompraController extends Janela{
     void onAdicionarAction(ActionEvent event) throws SQLException {
         CadastroProduto cadastroProduto = new CadastroProduto();
         //Tratar erro que acontece se apertar o botao com o ComboBox de produtos "vazio" (sem nada escolhido)
-        Produto adicionado = cadastroProduto.buscarPorNome(listaProdutos.getValue());
-        String novoItem = quantidade.getValue() + " " + adicionado.getNome() + " " + adicionado.getPrecoCompra()+ " " + adicionado.getTipo();
-        Label label = new Label(novoItem);
-        Button botaoRemover = new Button("Remover Item");
-        // Colocar Label e Button dentro de um HBox (layout horizontal)
+        if(listaProdutos.getValue() != null) {
+            Produto adicionado = cadastroProduto.buscarPorNome(listaProdutos.getValue());
+            String novoItem = quantidade.getValue() + " " + adicionado.getNome() + " " + adicionado.getPrecoCompra() + " " + adicionado.getTipo();
+            HBox container = new HBox();
+            Label label = new Label(novoItem);
+            Button botaoRemover = new Button("X");
+            botaoRemover.resize(1.0, 1.0);
+            botaoRemover.setOnAction(e -> {
+                vBoxCarrinho.getChildren().remove(container);
+            });
+            container.getChildren().addAll(label, botaoRemover);
+            vBoxCarrinho.getChildren().add(container);
+            carrinho.setContent(vBoxCarrinho);
+        }
+    }
 
-
-        vBoxCarrinho.getChildren().add(label);
-        vBoxCarrinho.getChildren().add(botaoRemover);
-        carrinho.setContent(vBoxCarrinho);
-
+    void onRemoverBotaoAction(){
 
     }
 
@@ -72,8 +83,9 @@ public class NovaCompraController extends Janela{
     }
 
     @FXML
-    void onNovoProdutoAction(ActionEvent event) {
-
+    void onNovoProdutoAction(ActionEvent event) throws IOException {
+        fecharJanela(botaoNovoProduto);
+        novoLayout("NovoProduto.fxml", "Novo Produto");
     }
 
     @FXML
