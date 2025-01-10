@@ -26,7 +26,7 @@ public class CadastroUsuarios extends Cadastro<Usuario>{
     public String nextId() {
         contadorId++;
         String id = contadorId > 99 ? String.format("%03d", contadorId) : String.valueOf(contadorId);;
-        return "Usuario" + String.format("%03d", contadorId);
+        return "Usuario" + id;
     }
 
     public Usuario criarUsuario(String nome, String senha, boolean adm){

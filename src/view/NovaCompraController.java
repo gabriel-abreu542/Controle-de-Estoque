@@ -37,6 +37,8 @@ public class NovaCompraController extends Janela{
     private ComboBox<String> listaProdutos;
     @FXML
     private Spinner<Integer> quantidade;
+    @FXML
+    private Label nomeUsuario;
 
     private Compra novaCompra;
 
@@ -78,14 +80,15 @@ public class NovaCompraController extends Janela{
     }
 
     @FXML
-    void onNovoFornecedorAction(ActionEvent event) {
-
+    void onNovoFornecedorAction(ActionEvent event) throws IOException {
+        fecharJanela(botaoNovoFornecedor);
+        novoLayout("/NovoFornecedor.fxml", "Novo Produto");
     }
 
     @FXML
     void onNovoProdutoAction(ActionEvent event) throws IOException {
         fecharJanela(botaoNovoProduto);
-        novoLayout("NovoProduto.fxml", "Novo Produto");
+        novoLayout("/NovoProduto.fxml", "Novo Produto");
     }
 
     @FXML

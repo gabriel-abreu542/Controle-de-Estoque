@@ -49,7 +49,6 @@ public class TelaInicialController extends Janela{
     @FXML
     void OnSairAction(ActionEvent event) {
         try {
-            // Fechando a janela atual
             fecharJanela(botaoSair);
 
             novoLayout("/Login.fxml", "Login");

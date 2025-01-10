@@ -69,16 +69,15 @@ public class CompraDAO extends TransacaoDAO{
         FornecedorDAO fornecedorDAO = new FornecedorDAO(connection);
         Compra compra = null;
         Fornecedor fornecedor = fornecedorDAO.buscarPorId(rs.getString("cnpjFornecedor"));
-        if (fornecedor != null) {
-            compra = new Compra(
-                    rs.getString("id"),
-                    fornecedor,
-                    rs.getString("formaPagamento")
-            );
-            compra.setDataTransacao(LocalDate.parse(rs.getString("data")));
+        if (fornecedor == null) {
+            throw new SQLException("Fornecedor não encontrado para o ID: " + rs.getString("cnpjFornecedor"));
         }
-
-
+        compra = new Compra(
+                rs.getString("id"),
+                fornecedor,
+                rs.getString("formaPagamento")
+        );
+        compra.setDataTransacao(LocalDate.parse(rs.getString("data")));
 
         return compra;
     }

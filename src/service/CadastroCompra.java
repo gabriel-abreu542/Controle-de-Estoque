@@ -5,6 +5,7 @@ import dao.ConexaoDB;
 import model.Compra;
 import model.Fornecedor;
 import model.Transacao;
+import model.Usuario;
 
 import java.sql.SQLException;
 
@@ -14,7 +15,6 @@ public class CadastroCompra extends CadastroTransacao{
         super();
         dao.criarTabela();
         contadorId = Integer.parseInt(dao.ultimoId().substring(6)); // pega apenas os 3 ultimos caracteres do maior id
-        System.out.println(dao.ultimoId().substring(6));
     }
 
     @Override
@@ -29,10 +29,13 @@ public class CadastroCompra extends CadastroTransacao{
         return "Compra" + String.format("%03d", contadorId);
     }
 
-    public Compra criarCompra(){
+    public Compra criarCompra(String nomeF, String formaP) throws SQLException {
         Compra novaCompra = null;
-
-
+        String id = nextId();
+        CadastroFornecedores cadastroFornecedores = new CadastroFornecedores();
+        Fornecedor fornecedor = cadastroFornecedores.buscarPorNome(nomeF);
+        novaCompra = new Compra(id, fornecedor, formaP);
+        cadastrar(novaCompra);
 
         return novaCompra;
     }

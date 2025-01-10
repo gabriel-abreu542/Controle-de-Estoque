@@ -72,14 +72,15 @@ public class VendaDAO extends TransacaoDAO{
         ClienteDAO clienteDAO = new ClienteDAO(connection);
         Venda venda = null;
         Cliente cliente = clienteDAO.buscarPorId(rs.getString("cpfCliente"));
-        if (cliente != null) {
-            venda = new Venda(
-                    rs.getString("id"),
-                    cliente,
-                    rs.getString("formaPagamento")
-            );
-            venda.setDataTransacao(LocalDate.parse(rs.getString("data")));
+        if (cliente == null) {
+            throw new SQLException("Cliente não encontrado para o ID: " + rs.getString("cpfCliente"));
         }
+        venda = new Venda(
+                rs.getString("id"),
+                cliente,
+                rs.getString("formaPagamento")
+        );
+        venda.setDataTransacao(LocalDate.parse(rs.getString("data")));
 
 
 

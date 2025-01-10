@@ -3,10 +3,7 @@ package dao;
 import model.Cadastravel;
 import model.Produto;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public abstract class ObjetoDAO<T extends Cadastravel> {
@@ -31,7 +28,7 @@ public abstract class ObjetoDAO<T extends Cadastravel> {
     public abstract void configurarParametrosAtualizacao(PreparedStatement stmt, T objeto) throws SQLException;
 
     public String ultimoId(){
-        String ultimo = "";
+        String ultimo = "Objeto000";
         try (PreparedStatement stmt = connection.prepareStatement("SELECT MAX(id) FROM " + tabela)){
             ResultSet rs = stmt.executeQuery();
             if(rs.next()){
@@ -42,7 +39,7 @@ public abstract class ObjetoDAO<T extends Cadastravel> {
             System.out.println("Erro ao buscar ultimo id em '" + tabela + "'");
         }
         if(ultimo == null) {
-            ultimo = "000";
+            ultimo = "Objeto000";
         }
         return ultimo;
     }

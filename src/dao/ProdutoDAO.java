@@ -20,7 +20,7 @@ public class ProdutoDAO extends ObjetoDAO<Produto>{
                 "id TEXT PRIMARY KEY," +
                 "nome TEXT NOT NULL," +
                 "desc TEXT," +
-                "tipo TEXT" +
+                "tipo VARCHAR(100)" +
                 ");";
         sqlInserir = "INSERT INTO produtos (id,nome,desc,tipo) VALUES (?,?,?,?)";
         sqlBuscar = "SELECT * FROM produtos WHERE id = ?";

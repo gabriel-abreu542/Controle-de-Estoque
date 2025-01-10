@@ -16,6 +16,7 @@ public abstract class Cadastro<T extends Cadastravel> {
 
     public Cadastro() throws SQLException {
         setDAO();
+        dao.criarTabela(); // cria a tabela que a classe de cadastros usa, se ela não existir ainda
     }
 
     public abstract void setDAO() throws SQLException;
@@ -39,6 +40,10 @@ public abstract class Cadastro<T extends Cadastravel> {
         return dao.buscarPorId(id);
     }
 
+    public T buscarPorNome(String nome){
+        return dao.buscarPorNome(nome);
+    }
+
     public List<T> listarTodos() {
         return dao.listarTodos();
     }
@@ -52,6 +57,7 @@ public abstract class Cadastro<T extends Cadastravel> {
             System.out.println("Erro ao atualizar: " + e.getMessage());
         }
     }
+
     public void deletar(String id){
         T item = dao.buscarPorId(id);
 
