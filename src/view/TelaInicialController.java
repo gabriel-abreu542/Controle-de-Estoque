@@ -42,7 +42,7 @@ public class TelaInicialController extends Janela{
 
     @FXML
     void onNovaCompraAction(ActionEvent event) throws IOException {
-        fecharJanela(botaoSair);
+        fecharJanela(botaoNovaCompra);
         novoLayout("/NovaCompra.fxml", "Nova Compra");
     }
 
@@ -54,7 +54,7 @@ public class TelaInicialController extends Janela{
 
             novoLayout("/Login.fxml", "Login");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Erro");
         }
     }
 

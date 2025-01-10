@@ -17,6 +17,7 @@ public abstract class ObjetoDAO<T extends Cadastravel> {
     protected String sqlRemover;
     protected String sqlUpdate;
     protected String sqlBuscar;
+    protected String sqlBuscarNome;
 
     public ObjetoDAO(Connection conn){
         connection = conn;
@@ -113,6 +114,24 @@ public abstract class ObjetoDAO<T extends Cadastravel> {
         T objeto = null;
 
         try (PreparedStatement stmt = connection.prepareStatement(sqlBuscar)){
+            stmt.setString(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()){
+                objeto = buscarNaTabela(rs);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+            throw new IllegalArgumentException("Erro ao buscar objeto na tabela '" + tabela + "'");
+        }
+
+        return objeto;
+    }
+
+    public T buscarPorNome(String id){
+
+        T objeto = null;
+
+        try (PreparedStatement stmt = connection.prepareStatement(sqlBuscarNome)){
             stmt.setString(1, id);
             ResultSet rs = stmt.executeQuery();
             if(rs.next()){

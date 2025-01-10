@@ -65,6 +65,7 @@ public class Produto implements Cadastravel{
     @Override
     public String toString() {
         return "Produto{" +
+                "id= " + id + '\'' +
                 "nome='" + nome + '\'' +
                 ", desc='" + desc + '\'' +
                 ", tipo='" + tipo + '\'' +

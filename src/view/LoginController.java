@@ -15,7 +15,7 @@ import model.Usuario;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class LoginController {
+public class LoginController extends Janela {
 
     @FXML
     private TextField nomeUsuario;
@@ -54,13 +54,10 @@ public class LoginController {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/TelaInicial.fxml"));
                 BorderPane root = loader.load();
 
-                // Obtendo o controlador da TelaInicial
                 TelaInicialController telaInicialController = loader.getController();
 
-                // Passando o nome do usuário para o controlador da TelaInicial
-                telaInicialController.setNomeUsuario(u.getNome()); // Aqui passamos o nome do usuário
+                telaInicialController.setNomeUsuario(u.getNome());
 
-                // Criando a nova cena e o novo stage para a Tela Inicial
                 Scene scene = new Scene(root);
                 Stage stage = new Stage();
                 stage.setScene(scene);

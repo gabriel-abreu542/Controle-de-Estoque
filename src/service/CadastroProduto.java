@@ -18,6 +18,10 @@ public class CadastroProduto extends Cadastro<Produto>{
         this.dao = new ProdutoDAO(ConexaoDB.getConnection());
     }
 
+    public Produto buscarPorNome(String nome){
+        return dao.buscarPorNome(nome);
+    }
+
     @Override
     public boolean regraInsercao(Produto item) throws IllegalArgumentException {
         if(item.getNome() == null || item.getNome().length() < 3){

@@ -16,7 +16,9 @@ public abstract class Janela {
 
     public void novoLayout(String fxml, String titulo) throws IOException {
         // Carregando o novo layout
+        System.out.println("fxml = " + fxml);
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+
         BorderPane novaPagina = loader.load();
 
         // Configurando o novo stage

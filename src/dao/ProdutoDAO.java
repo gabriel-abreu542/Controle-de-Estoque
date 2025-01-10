@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ProdutoDAO extends ObjetoDAO<Produto>{
+
+
     public ProdutoDAO(Connection conn) {
         super(conn);
     }
@@ -24,6 +26,7 @@ public class ProdutoDAO extends ObjetoDAO<Produto>{
                 ");";
         sqlInserir = "INSERT INTO produtos (id,nome,desc,tipo,precoCompra,precoVenda) VALUES (?,?,?,?,?,?)";
         sqlBuscar = "SELECT * FROM produtos WHERE id = ?";
+        sqlBuscarNome = "SELECT * FROM produtos WHERE nome = ?";
         sqlRemover = "DELETE FROM produtos WHERE id = ?";
         sqlUpdate = "UPDATE produtos SET nome = ?, desc = ?, tipo = ?, precoCompra = ?,precoVenda = ? WHERE id = ?";
         tabela = "produtos";

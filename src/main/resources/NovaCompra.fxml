@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -92,7 +91,7 @@
                         <Insets left="5.0" />
                      </GridPane.margin>
                   </ComboBox>
-                  <ComboBox fx:id="listaFornecedores" onInputMethodTextChanged="#onDigitandoCaixaAction" prefHeight="25.0" prefWidth="232.0" GridPane.columnIndex="1">
+                  <ComboBox fx:id="listaFornecedores" prefHeight="25.0" prefWidth="232.0" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets left="5.0" />
                      </GridPane.margin>
@@ -112,7 +111,7 @@
             </Label>
             <ScrollPane fx:id="carrinho" prefHeight="127.0" prefWidth="566.0">
                <content>
-                  <ChoiceBox fx:id="teste" prefWidth="150.0" />
+                  <VBox fx:id="vBoxCarrinho" prefHeight="120.0" prefWidth="562.0" />
                </content>
             </ScrollPane>
             <HBox alignment="CENTER_RIGHT" prefHeight="70.0" prefWidth="566.0">
