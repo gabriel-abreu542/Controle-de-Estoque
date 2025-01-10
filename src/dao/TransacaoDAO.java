@@ -58,9 +58,9 @@ public abstract class TransacaoDAO extends ObjetoDAO<Transacao>{
         String idTransacao = objeto.getId();
 
         //insere informações dos itens da Transacao com o id da Transacao na tabela de itens
-        for (Map.Entry<Produto, Integer> entry : objeto.getItens().entrySet()){
-            String idProduto = entry.getKey().getId();
-            int quant = entry.getValue();
+        for (ItemTransacao i : objeto.getItens()){
+            String idProduto = i.getProduto().getId();
+            int quant = i.getQuantidade();
 
             try (PreparedStatement stmt = connection.prepareStatement(sqlInserirItem)){
                 stmt.setString(1, idTransacao);
@@ -98,7 +98,12 @@ public abstract class TransacaoDAO extends ObjetoDAO<Transacao>{
                 Produto produto = produtoDAO.buscarPorId(rs.getString("idProduto"));
                 if(produto != null){
                     assert T != null;
-                    T.adicionarItem(produto, rs.getInt("quantidade"));
+                    ItemTransacao item = new ItemTransacao(
+                            produto,
+                            rs.getInt("quantidade"),
+                            rs.getFloat("precoUnitario")
+                    );
+                    T.adicionarItem(item);
                 }
             }
 
@@ -130,7 +135,12 @@ public abstract class TransacaoDAO extends ObjetoDAO<Transacao>{
                     while(rs2.next()){
                         Produto produto = produtoDAO.buscarPorId(rs2.getString("idProduto"));
                         if(produto != null){
-                            T.adicionarItem(produto, rs2.getInt("quantidade"));
+                            ItemTransacao item = new ItemTransacao(
+                                    produto,
+                                    rs2.getInt("quantidade"),
+                                    rs2.getFloat("precoUnitario")
+                            );
+                            T.adicionarItem(item);
                         }
                     }
 

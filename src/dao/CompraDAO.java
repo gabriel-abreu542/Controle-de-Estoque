@@ -37,13 +37,14 @@ public class CompraDAO extends TransacaoDAO{
                 "idCompra TEXT," +
                 "idProduto TEXT," +
                 "quantidade INT NOT NULL," +
+                "precoUnitario REAL NOT NULL" +
                 //  "total parcial REAL NOT NULL" +      // decidir se total parcial será calculado ou armazenado
                 "PRIMARY KEY (idCompra, idProduto)," +
                 "FOREIGN KEY (idCompra) REFERENCES compras(id)," +
                 "FOREIGN KEY (idProduto) REFERENCES produtos(id)" +
                 ");";
         sqlBuscarItens = "SELECT * FROM itensCompra WHERE idCompra = ?";
-        sqlInserirItem = "INSERT into itensCompra (idCompra,idProduto,quantidade) VALUES (?,?,?)";
+        sqlInserirItem = "INSERT into itensCompra (idCompra,idProduto,quantidade,precoUnitario) VALUES (?,?,?,?)";
         sqlRemoverDeItens = "DELETE FROM itensCompra WHERE idCompra = ?";
     }
 
@@ -76,6 +77,8 @@ public class CompraDAO extends TransacaoDAO{
             );
             compra.setDataTransacao(LocalDate.parse(rs.getString("data")));
         }
+
+
 
         return compra;
     }

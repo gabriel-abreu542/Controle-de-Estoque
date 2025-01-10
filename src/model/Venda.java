@@ -24,10 +24,10 @@ public class Venda extends Transacao{
         detalhes.append(cliente.toString());
         detalhes.append("Data: ").append(dataTransacao).append("\n");
         detalhes.append("Itens:\n");
-        for (Map.Entry<Produto, Integer> entry : itens.entrySet()) {
-            detalhes.append(entry.getKey().getNome())
-                    .append(" - Quantidade: ").append(entry.getValue())
-                    .append(" - Total: ").append(entry.getKey().getPrecoVenda() * entry.getValue())
+        for (ItemTransacao i : itens) {
+            detalhes.append(i.getProduto().getNome())
+                    .append(" - Quantidade: ").append(i.getQuantidade())
+                    .append(" - Soma Parcial: ").append(i.getSomaParcial())
                     .append("\n");
         }
         detalhes.append("Forma de pagamento: ").append(formaPagamento).append("\n");

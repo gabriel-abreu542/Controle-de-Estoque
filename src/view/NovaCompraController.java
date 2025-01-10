@@ -56,10 +56,9 @@ public class NovaCompraController extends Janela{
     @FXML
     void onAdicionarAction(ActionEvent event) throws SQLException {
         CadastroProduto cadastroProduto = new CadastroProduto();
-        //Tratar erro que acontece se apertar o botao com o ComboBox de produtos "vazio" (sem nada escolhido)
         if(listaProdutos.getValue() != null) {
             Produto adicionado = cadastroProduto.buscarPorNome(listaProdutos.getValue());
-            String novoItem = quantidade.getValue() + " " + adicionado.getNome() + " " + adicionado.getPrecoCompra() + " " + adicionado.getTipo();
+            String novoItem = quantidade.getValue() + " " + adicionado.getNome() + " [preço]" + " " + adicionado.getTipo();
             HBox container = new HBox();
             Label label = new Label(novoItem);
             Button botaoRemover = new Button("X");
@@ -67,6 +66,7 @@ public class NovaCompraController extends Janela{
             botaoRemover.setOnAction(e -> {
                 vBoxCarrinho.getChildren().remove(container);
             });
+
             container.getChildren().addAll(label, botaoRemover);
             vBoxCarrinho.getChildren().add(container);
             carrinho.setContent(vBoxCarrinho);

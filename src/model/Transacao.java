@@ -1,19 +1,20 @@
 package model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Transacao implements Cadastravel{
     protected String id;
-    protected Map<Produto, Integer> itens;
+    ArrayList<ItemTransacao> itens;
     protected String formaPagamento;
     protected LocalDate dataTransacao;
     protected float valorTotal;
 
     public Transacao(String id, String f){
         this.id = id;
-        itens = new HashMap<>();
+        itens = new ArrayList<>();
         dataTransacao = LocalDate.now();
         valorTotal = 0;
         formaPagamento = f;
@@ -24,29 +25,35 @@ public class Transacao implements Cadastravel{
         return id;
     }
 
-    public void adicionarItem(Produto p, int quantidade){
-        if (quantidade <= 0){
+    public void adicionarItem(ItemTransacao item){
+        if (item.getQuantidade() <= 0){
             throw new IllegalArgumentException("Quantidade deve ser maior que zero");
         }
-        itens.put(p, itens.getOrDefault(p, 0) + quantidade);
-
-        valorTotal += itens.get(p) * p.getPrecoVenda(); //atualiza valor da transacao
+        itens.add(item);
     }
 
     public void removerItem(Produto p, int quantidade){
-        int q = itens.getOrDefault(p, 0);
-        if(q == 0) {
-            throw new IllegalArgumentException("Item a ser removido não está na venda");
+        boolean naLista = false;
+        ItemTransacao removido = null;
+        for(ItemTransacao i : itens){
+            if(i.getProduto() == p){
+                naLista = true;
+                removido = i;
+            }
         }
-        if (quantidade > q){
-            throw new IllegalArgumentException("Quantidade removida deve ser menor que a quantidade da venda");
-        } else if (quantidade < q) {
-            itens.put(p, q - quantidade);
-            valorTotal = valorTotal - quantidade * p.getPrecoVenda(); //atualiza valor da compra
+        if(!naLista) {
+            throw new IllegalArgumentException("Item a ser removido não está na lista");
+        }
+        int disponivel = removido.getQuantidade();
+        if (quantidade > disponivel){
+            throw new IllegalArgumentException("Quantidade removida deve ser menor que a quantidade na lista");
+        } else if (quantidade < disponivel) {
+            removido.setQuantidade(disponivel - quantidade);
+            valorTotal = valorTotal - quantidade * removido.getPrecoUnitario(); //atualiza valor da compra
         }
         else{
-            valorTotal -= itens.get(p) * p.getPrecoVenda(); //atualiza valor da transacao
-            itens.remove(p);
+            valorTotal -= removido.getSomaParcial(); //atualiza valor da transacao
+            itens.remove(removido);
         }
 
     }
@@ -71,7 +78,7 @@ public class Transacao implements Cadastravel{
         this.formaPagamento = formaPagamento;
     }
 
-    public Map<Produto, Integer> getItens() {
+    public ArrayList<ItemTransacao> getItens() {
         return itens;
     }
 
@@ -80,10 +87,10 @@ public class Transacao implements Cadastravel{
         StringBuilder detalhes = new StringBuilder("Venda:\n");
         detalhes.append("Data: ").append(dataTransacao).append("\n");
         detalhes.append("Itens:\n");
-        for (Map.Entry<Produto, Integer> entry : itens.entrySet()) {
-            detalhes.append(entry.getKey().getNome())
-                    .append(" - Quantidade: ").append(entry.getValue())
-                    .append(" - Total: ").append(entry.getKey().getPrecoVenda() * entry.getValue())
+        for (ItemTransacao i : itens) {
+            detalhes.append(i.getProduto().getNome())
+                    .append(" - Quantidade: ").append(i.getQuantidade())
+                    .append(" - Total: ").append(i.getPrecoUnitario() * i.getSomaParcial())
                     .append("\n");
         }
         detalhes.append("Forma de pagamento: ").append(formaPagamento).append("\n");

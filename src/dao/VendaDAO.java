@@ -37,13 +37,14 @@ public class VendaDAO extends TransacaoDAO{
                 "idVenda TEXT," +
                 "idProduto TEXT," +
                 "quantidade INT NOT NULL," +
+                "precoUnitario REAL NOT NULL" +
                 //  "total parcial REAL NOT NULL" +      // decidir se total parcial será calculado ou armazenado
                 "PRIMARY KEY (idVenda, idProduto)," +
                 "FOREIGN KEY (idVenda) REFERENCES vendas(id)," +
                 "FOREIGN KEY (idProduto) REFERENCES produtos(id)" +
                 ");";
         sqlBuscarItens = "SELECT * FROM itensVenda WHERE idVenda = ?";
-        sqlInserirItem = "INSERT INTO itensVenda (idVenda,idProduto,quantidade) VALUES (?,?,?)";
+        sqlInserirItem = "INSERT INTO itensVenda (idVenda,idProduto,quantidade, precoUnitario) VALUES (?,?,?,?)";
         sqlRemoverDeItens = "DELETE FROM itensVenda WHERE idVenda = ?";
     }
 

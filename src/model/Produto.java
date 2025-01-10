@@ -5,16 +5,12 @@ public class Produto implements Cadastravel{
     private String nome;
     private String desc;
     private String tipo;
-    private float precoCompra;
-    private float precoVenda;
 
-    public Produto(String id, String n, float pCompra, float pVenda){
+    public Produto(String id, String n){
         this.id = id;
         nome = n;
         desc = "";
         tipo = "";
-        precoCompra = pCompra;
-        precoVenda = pVenda;
     }
 
     @Override
@@ -34,14 +30,6 @@ public class Produto implements Cadastravel{
         return this.tipo;
     }
 
-    public float getPrecoCompra(){
-        return this.precoCompra;
-    }
-
-    public float getPrecoVenda(){
-        return this.precoVenda;
-    }
-
     public void setNome(String n){
         nome = n;
     }
@@ -54,14 +42,6 @@ public class Produto implements Cadastravel{
         tipo = t;
     }
 
-    public void setPrecoCompra(float p){
-        precoCompra = p;
-    }
-
-    public void setPrecoVenda(float p){
-        precoVenda = p;
-    }
-
     @Override
     public String toString() {
         return "Produto{" +
@@ -69,8 +49,6 @@ public class Produto implements Cadastravel{
                 "nome='" + nome + '\'' +
                 ", desc='" + desc + '\'' +
                 ", tipo='" + tipo + '\'' +
-                ", precoCompra=" + precoCompra +
-                ", precoVenda=" + precoVenda +
                 '}';
     }
 }

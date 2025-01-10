@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class Compra extends Transacao{
@@ -24,10 +25,10 @@ public class Compra extends Transacao{
         detalhes.append(fornecedor).append("\n");
         detalhes.append("Data: ").append(dataTransacao).append("\n");
         detalhes.append("Itens:\n");
-        for (Map.Entry<Produto, Integer> entry : itens.entrySet()) {
-            detalhes.append(entry.getKey().getNome())
-                    .append(" - Quantidade: ").append(entry.getValue())
-                    .append(" - Total: ").append(entry.getKey().getPrecoVenda() * entry.getValue())
+        for (ItemTransacao i : itens) {
+            detalhes.append(i.getProduto().getNome())
+                    .append(" - Quantidade: ").append(i.getQuantidade())
+                    .append(" - Soma Parcial: ").append(i.getSomaParcial())
                     .append("\n");
         }
         detalhes.append("Forma de pagamento: ").append(formaPagamento).append("\n");

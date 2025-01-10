@@ -25,47 +25,47 @@ public class Loja implements Cadastravel{
 
     // Objeto Compra será "cadastrado" em uma tela antes de ser passado para essa função
     public boolean realizarCompra(Compra compra){
-        if(compra.getItens().isEmpty()){
-            System.out.println("Compra não possui nenhum item");
-            return false;
-        }
-
-        for (Map.Entry<Produto, Integer> entry : compra.getItens().entrySet()){
-            estoque.adicionarProduto(entry.getKey(), entry.getValue());
-        }
-
-        historico.adicionarCompra(compra);
-        System.out.println("Compra realizada com sucesso");
+//        if(compra.getItens().isEmpty()){
+//            System.out.println("Compra não possui nenhum item");
+//            return false;
+//        }
+//
+//        for (Map.Entry<Produto, Integer> entry : compra.getItens().entrySet()){
+//            estoque.adicionarProduto(entry.getKey(), entry.getValue());
+//        }
+//
+//        historico.adicionarCompra(compra);
+//        System.out.println("Compra realizada com sucesso");
         return true;
     }
 
     // Objeto Venda será "cadastrado" em uma tela antes de ser passado para essa função
     public boolean realizarVenda(Venda venda){
-        if(venda.getItens().isEmpty()){
-            System.out.println("Venda não possui nenhum item");
-            return false;
-        }
-
-        for (Map.Entry<Produto, Integer> entry: venda.getItens().entrySet()){
-            Produto produto = entry.getKey();
-            Integer quantidade = entry.getValue();
-
-            try{
-                boolean removido = estoque.removerProduto(produto, quantidade);
-                if(!removido){
-                    System.out.println("Produto " + produto.getNome() + " não encontrado no estoque");
-                    return false;
-                }
-
-            }catch (RuntimeException e){
-                System.out.println("Falha ao realizar a Venda: " + e.getMessage());
-                return false;
-            }
-
-        }
-
-        historico.adicionarVenda(venda);
-        System.out.println("Venda realizada com sucesso");
+//        if(venda.getItens().isEmpty()){
+//            System.out.println("Venda não possui nenhum item");
+//            return false;
+//        }
+//
+//        for (Map.Entry<Produto, Integer> entry: venda.getItens().entrySet()){
+//            Produto produto = entry.getKey();
+//            Integer quantidade = entry.getValue();
+//
+//            try{
+//                boolean removido = estoque.removerProduto(produto, quantidade);
+//                if(!removido){
+//                    System.out.println("Produto " + produto.getNome() + " não encontrado no estoque");
+//                    return false;
+//                }
+//
+//            }catch (RuntimeException e){
+//                System.out.println("Falha ao realizar a Venda: " + e.getMessage());
+//                return false;
+//            }
+//
+//        }
+//
+//        historico.adicionarVenda(venda);
+//        System.out.println("Venda realizada com sucesso");
         return true;
     }
 

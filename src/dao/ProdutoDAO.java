@@ -20,15 +20,13 @@ public class ProdutoDAO extends ObjetoDAO<Produto>{
                 "id TEXT PRIMARY KEY," +
                 "nome TEXT NOT NULL," +
                 "desc TEXT," +
-                "tipo TEXT," +
-                "precoCompra REAL NOT NULL," +
-                "precoVenda REAL NOT NULL" +
+                "tipo TEXT" +
                 ");";
-        sqlInserir = "INSERT INTO produtos (id,nome,desc,tipo,precoCompra,precoVenda) VALUES (?,?,?,?,?,?)";
+        sqlInserir = "INSERT INTO produtos (id,nome,desc,tipo) VALUES (?,?,?,?)";
         sqlBuscar = "SELECT * FROM produtos WHERE id = ?";
         sqlBuscarNome = "SELECT * FROM produtos WHERE nome = ?";
         sqlRemover = "DELETE FROM produtos WHERE id = ?";
-        sqlUpdate = "UPDATE produtos SET nome = ?, desc = ?, tipo = ?, precoCompra = ?,precoVenda = ? WHERE id = ?";
+        sqlUpdate = "UPDATE produtos SET nome = ?, desc = ?, tipo = ? WHERE id = ?";
         tabela = "produtos";
     }
 
@@ -38,8 +36,6 @@ public class ProdutoDAO extends ObjetoDAO<Produto>{
         stmt.setString(2, objeto.getNome());
         stmt.setString(3, objeto.getDesc());
         stmt.setString(4, objeto.getTipo());
-        stmt.setFloat( 5, objeto.getPrecoCompra());
-        stmt.setFloat( 6, objeto.getPrecoVenda());
     }
 
     @Override
@@ -47,18 +43,14 @@ public class ProdutoDAO extends ObjetoDAO<Produto>{
         stmt.setString(1, objeto.getNome());
         stmt.setString(2, objeto.getDesc());
         stmt.setString(3, objeto.getTipo());
-        stmt.setFloat( 4, objeto.getPrecoCompra());
-        stmt.setFloat( 5, objeto.getPrecoVenda());
-        stmt.setString(6, objeto.getId());
+        stmt.setString(4, objeto.getId());
     }
 
     @Override
     public Produto buscarNaTabela(ResultSet rs) throws SQLException {
         Produto produto = new Produto(
                 rs.getString("id"),
-                rs.getString("nome"),
-                rs.getFloat("precoCompra"),
-                rs.getFloat("precoVenda")
+                rs.getString("nome")
         );
         String desc = rs.getString("desc");
         String tipo = rs.getString("tipo");
