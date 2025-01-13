@@ -45,6 +45,7 @@ public class Transacao implements Cadastravel{
             throw new IllegalArgumentException("Quantidade deve ser maior que zero");
         }
         itens.add(item);
+        valorTotal += item.getSomaParcial();
     }
 
     public void removerItem(Produto p){

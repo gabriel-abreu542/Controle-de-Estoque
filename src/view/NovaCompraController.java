@@ -132,20 +132,24 @@ public class NovaCompraController extends Janela{
             } else {
 
                 Produto adicionado = cadastroProduto.buscarPorNome(listaProdutos.getValue());
-
+                ItemTransacao item = new ItemTransacao(adicionado, quantidade.getValue(), precoUnit.getValue().floatValue());
                 String novoItem = quantidade.getValue() + " " + adicionado.getNome() + " " + precoUnit.getValue().floatValue() + " " + adicionado.getTipo();
                 HBox container = new HBox();
-                Label label = new Label(novoItem);
+                Label quant = new Label(String.valueOf(quantidade.getValue()));
+                Label nome = new Label(adicionado.getNome());
+                nome.setLayoutX(20);
+                Label precoU = new Label(String.valueOf(precoUnit.getValue().floatValue()));
+                Label subTotal = new Label(String.valueOf(item.getSomaParcial()));
                 Button botaoRemover = new Button("X");
-                botaoRemover.resize(1.0, 1.0);
                 botaoRemover.setOnAction(e -> {
                     vBoxCarrinho.getChildren().remove(container);
                     //itensCompra.remove();
                 });
-                ItemTransacao item = new ItemTransacao(adicionado, quantidade.getValue(), precoUnit.getValue().floatValue());
                 itensCompra.add(item);
 
-                container.getChildren().addAll(label, botaoRemover);
+                container.getChildren().addAll(quant, nome, precoU, subTotal, botaoRemover);
+                container.setLayoutX(30);
+                container.setSpacing(70);
                 vBoxCarrinho.getChildren().add(container);
                 carrinho.setContent(vBoxCarrinho);
             }
@@ -200,7 +204,7 @@ public class NovaCompraController extends Janela{
             novaCompra = cadastroCompra.criarCompra(fornecedor,formaP, itensCompra);
             System.out.println("Compra realizada com sucesso!");
             System.out.println(novaCompra);
-            
+
         }
     }
 
