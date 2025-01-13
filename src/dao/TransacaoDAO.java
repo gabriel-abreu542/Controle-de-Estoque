@@ -61,11 +61,13 @@ public abstract class TransacaoDAO extends ObjetoDAO<Transacao>{
         for (ItemTransacao i : objeto.getItens()){
             String idProduto = i.getProduto().getId();
             int quant = i.getQuantidade();
+            float precoUnit = i.getPrecoUnitario();
 
             try (PreparedStatement stmt = connection.prepareStatement(sqlInserirItem)){
                 stmt.setString(1, idTransacao);
                 stmt.setObject(2, idProduto);
                 stmt.setInt(3, quant);
+                stmt.setFloat(4, precoUnit);
 
                 stmt.executeUpdate();
                 System.out.println("Cadastro na tabela " + tabelaItens + "' concluido.");

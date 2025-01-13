@@ -23,6 +23,7 @@ public class FornecedorDAO extends ObjetoDAO<Fornecedor>{
                 "endereco TEXT NOT NULL" +
                 ");";
         sqlBuscar = "SELECT * FROM fornecedores WHERE cnpj = ?";
+        sqlBuscarNome = "SELECT * FROM fornecedores WHERE nome = ?";
         sqlInserir = "INSERT INTO fornecedores (cnpj,nome,telefone,email,endereco) VALUES (?,?,?,?,?)";
         sqlRemover = "DELETE FROM fornecedores WHERE cnpj = ?";
         sqlUpdate = "UPDATE fornecedores SET nome = ?, telefone = ?, email = ?, endereco = ? WHERE cnpj = ?";

@@ -8,9 +8,10 @@ import javafx.scene.control.TextField;
 import model.Fornecedor;
 import service.CadastroFornecedores;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
-public class NovoFornecedorController {
+public class NovoFornecedorController extends  Janela{
 
     @FXML
     private Button botaoAdicionar;
@@ -56,8 +57,9 @@ public class NovoFornecedorController {
     }
 
     @FXML
-    void onVoltarAction(ActionEvent event) {
-
+    void onVoltarAction(ActionEvent event) throws IOException {
+        fecharJanela(botaoVoltar);
+        novoLayout("/NovaCompra.fxml", "Nova Compra");
     }
 
 }

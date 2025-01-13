@@ -27,6 +27,7 @@ public class Venda extends Transacao{
         for (ItemTransacao i : itens) {
             detalhes.append(i.getProduto().getNome())
                     .append(" - Quantidade: ").append(i.getQuantidade())
+                    .append(" - Preço Unitario: ").append(i.getPrecoUnitario())
                     .append(" - Soma Parcial: ").append(i.getSomaParcial())
                     .append("\n");
         }

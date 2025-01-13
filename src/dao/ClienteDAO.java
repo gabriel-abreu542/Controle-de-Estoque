@@ -22,6 +22,7 @@ public class ClienteDAO extends ObjetoDAO<Cliente>{
                 "divida REAL" +
                 ");";
         sqlBuscar = "SELECT * FROM clientes WHERE cpf = ?";
+        sqlBuscarNome = "SELECT * FROM clientes WHERE nome = ?";
         sqlInserir = "INSERT INTO clientes (cpf,nome,telefone,endividado,divida) VALUES (?,?,?,?,?)";
         sqlRemover = "DELETE FROM clientes WHERE cpf = ?";
         sqlUpdate = "UPDATE clientes SET nome = ?, telefone = ?, endividado = ?, divida = ? WHERE cpf = ?";

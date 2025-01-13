@@ -27,7 +27,10 @@ public abstract class CadastroTransacao extends Cadastro<Transacao>{
         formasPagamento.add("DINHEIRO");
         formasPagamento.add("CREDITO");
         formasPagamento.add("DEBITO");
-        if(formasPagamento.contains(item.getFormaPagamento())){
+        System.out.println("COMPARAÇÃO CONTAINS:");
+        System.out.println(item.getFormaPagamento());
+        System.out.println(formasPagamento);
+        if(!formasPagamento.contains(item.getFormaPagamento())){
             throw new IllegalArgumentException("Forma de pagamento " + item.getFormaPagamento() + " não reconhecida.");
         }
 

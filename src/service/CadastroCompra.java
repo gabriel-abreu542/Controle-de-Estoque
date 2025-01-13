@@ -2,12 +2,10 @@ package service;
 
 import dao.CompraDAO;
 import dao.ConexaoDB;
-import model.Compra;
-import model.Fornecedor;
-import model.Transacao;
-import model.Usuario;
+import model.*;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class CadastroCompra extends CadastroTransacao{
     private static int contadorId;
@@ -29,12 +27,15 @@ public class CadastroCompra extends CadastroTransacao{
         return "Compra" + String.format("%03d", contadorId);
     }
 
-    public Compra criarCompra(String nomeF, String formaP) throws SQLException {
+    public Compra criarCompra(String nomeF, String formaP, ArrayList<ItemTransacao> itens) throws SQLException {
         Compra novaCompra = null;
         String id = nextId();
         CadastroFornecedores cadastroFornecedores = new CadastroFornecedores();
         Fornecedor fornecedor = cadastroFornecedores.buscarPorNome(nomeF);
         novaCompra = new Compra(id, fornecedor, formaP);
+        for (ItemTransacao i : itens){
+            novaCompra.adicionarItem(i);
+        }
         cadastrar(novaCompra);
 
         return novaCompra;

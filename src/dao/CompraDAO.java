@@ -37,7 +37,7 @@ public class CompraDAO extends TransacaoDAO{
                 "idCompra TEXT," +
                 "idProduto TEXT," +
                 "quantidade INT NOT NULL," +
-                "precoUnitario REAL NOT NULL" +
+                "precoUnitario REAL NOT NULL," +
                 //  "total parcial REAL NOT NULL" +      // decidir se total parcial será calculado ou armazenado
                 "PRIMARY KEY (idCompra, idProduto)," +
                 "FOREIGN KEY (idCompra) REFERENCES compras(id)," +
@@ -53,7 +53,7 @@ public class CompraDAO extends TransacaoDAO{
     public void configurarParametrosInsercao(PreparedStatement stmt, Transacao objeto) throws SQLException {
         Compra novaCompra = (Compra) objeto;
         stmt.setString(1, novaCompra.getId());
-        stmt.setString(2, novaCompra.getFormaPagamento());
+        stmt.setString(2, novaCompra.getFormaPagamento().toString());
         stmt.setString(3, novaCompra.getDataTransacao().toString());
         stmt.setFloat( 4, novaCompra.getValorTotal());
         stmt.setString(5, novaCompra.getFornecedor().getId());

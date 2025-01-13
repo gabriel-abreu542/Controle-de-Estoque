@@ -37,7 +37,7 @@ public class VendaDAO extends TransacaoDAO{
                 "idVenda TEXT," +
                 "idProduto TEXT," +
                 "quantidade INT NOT NULL," +
-                "precoUnitario REAL NOT NULL" +
+                "precoUnitario REAL NOT NULL," +
                 //  "total parcial REAL NOT NULL" +      // decidir se total parcial será calculado ou armazenado
                 "PRIMARY KEY (idVenda, idProduto)," +
                 "FOREIGN KEY (idVenda) REFERENCES vendas(id)," +

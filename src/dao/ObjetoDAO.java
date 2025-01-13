@@ -19,6 +19,7 @@ public abstract class ObjetoDAO<T extends Cadastravel> {
     public ObjetoDAO(Connection conn){
         connection = conn;
         setSQL();
+        System.out.println("Dentro do DAO:\nBuscar: " + sqlBuscarNome);
     }
 
     public abstract void setSQL();
@@ -125,9 +126,10 @@ public abstract class ObjetoDAO<T extends Cadastravel> {
     }
 
     public T buscarPorNome(String id){
-
+        System.out.println("Statement: " + sqlBuscarNome);
+        setSQL();
         T objeto = null;
-
+        System.out.println("(SetSQL()) Statement: " + sqlBuscarNome);
         try (PreparedStatement stmt = connection.prepareStatement(sqlBuscarNome)){
             stmt.setString(1, id);
             ResultSet rs = stmt.executeQuery();

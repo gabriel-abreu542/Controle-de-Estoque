@@ -8,16 +8,31 @@ import java.util.Map;
 public class Transacao implements Cadastravel{
     protected String id;
     ArrayList<ItemTransacao> itens;
-    protected String formaPagamento;
+    protected Pagamento formaPagamento;
     protected LocalDate dataTransacao;
     protected float valorTotal;
 
-    public Transacao(String id, String f){
+    public Transacao(String id, String f) throws IllegalArgumentException{
         this.id = id;
         itens = new ArrayList<>();
         dataTransacao = LocalDate.now();
         valorTotal = 0;
-        formaPagamento = f;
+        switch (f.toLowerCase()){
+            case "dinheiro":
+                formaPagamento = Pagamento.DINHEIRO;
+                break;
+            case "credito":
+                formaPagamento = Pagamento.CREDITO;
+                break;
+            case "debito":
+                formaPagamento = Pagamento.DEBITO;
+                break;
+            case "pix":
+                formaPagamento = Pagamento.PIX;
+                break;
+            default:
+                throw new IllegalArgumentException("Forma de pagamento '" + formaPagamento + "' inválida");
+        }
     }
 
     @Override
@@ -32,7 +47,7 @@ public class Transacao implements Cadastravel{
         itens.add(item);
     }
 
-    public void removerItem(Produto p, int quantidade){
+    public void removerItem(Produto p){
         boolean naLista = false;
         ItemTransacao removido = null;
         for(ItemTransacao i : itens){
@@ -44,17 +59,17 @@ public class Transacao implements Cadastravel{
         if(!naLista) {
             throw new IllegalArgumentException("Item a ser removido não está na lista");
         }
-        int disponivel = removido.getQuantidade();
-        if (quantidade > disponivel){
-            throw new IllegalArgumentException("Quantidade removida deve ser menor que a quantidade na lista");
-        } else if (quantidade < disponivel) {
-            removido.setQuantidade(disponivel - quantidade);
-            valorTotal = valorTotal - quantidade * removido.getPrecoUnitario(); //atualiza valor da compra
-        }
-        else{
+//        int disponivel = removido.getQuantidade();
+//        if (quantidade > disponivel){
+//            throw new IllegalArgumentException("Quantidade removida deve ser menor que a quantidade na lista");
+//        } else if (quantidade < disponivel) {
+//            removido.setQuantidade(disponivel - quantidade);
+//            valorTotal = valorTotal - quantidade * removido.getPrecoUnitario(); //atualiza valor da compra
+//        }
+//        else{
             valorTotal -= removido.getSomaParcial(); //atualiza valor da transacao
             itens.remove(removido);
-        }
+//        }
 
     }
 
@@ -71,11 +86,20 @@ public class Transacao implements Cadastravel{
     }
 
     public String getFormaPagamento() {
-        return formaPagamento;
+        return formaPagamento.toString();
     }
 
-    public void setFormaPagamento(String formaPagamento) {
-        this.formaPagamento = formaPagamento;
+    public void setFormaPagamento(String formaPag) {
+        switch (formaPag.toLowerCase()){
+            case "dinheiro":
+                formaPagamento = Pagamento.DINHEIRO;
+            case "credito":
+                formaPagamento = Pagamento.CREDITO;
+            case "debito":
+                formaPagamento = Pagamento.DEBITO;
+            case "pix":
+                formaPagamento = Pagamento.PIX;
+        }
     }
 
     public ArrayList<ItemTransacao> getItens() {
