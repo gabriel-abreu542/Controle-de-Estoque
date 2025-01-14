@@ -17,6 +17,7 @@ public class Transacao implements Cadastravel{
         itens = new ArrayList<>();
         dataTransacao = LocalDate.now();
         valorTotal = 0;
+        System.out.println("Forma de Pagamento: " + f);
         switch (f.toLowerCase()){
             case "dinheiro":
                 formaPagamento = Pagamento.DINHEIRO;

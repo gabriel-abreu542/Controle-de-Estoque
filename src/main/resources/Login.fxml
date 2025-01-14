@@ -42,7 +42,7 @@
                               <Insets left="50.0" />
                            </GridPane.margin>
                         </Label>
-                        <PasswordField fx:id="senhaUsuario" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <PasswordField fx:id="senhaUsuario" onKeyPressed="#enterLogin" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
                </children>

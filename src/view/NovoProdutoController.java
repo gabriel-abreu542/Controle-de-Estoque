@@ -11,7 +11,7 @@ import service.CadastroProduto;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class NovoProdutoController extends Janela{
+public class NovoProdutoController extends JanelaController {
     @FXML
     private Button botaoAdicionar;
     @FXML

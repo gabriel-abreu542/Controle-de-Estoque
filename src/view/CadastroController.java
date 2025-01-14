@@ -2,21 +2,17 @@ package view;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
 import model.Usuario;
 import service.CadastroUsuarios;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class CadastroController extends Janela{
+public class CadastroController extends JanelaController {
     private CadastroUsuarios cadastroUsuarios;
     @FXML
     private PasswordField confirmarSenha;

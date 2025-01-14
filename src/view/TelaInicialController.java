@@ -2,16 +2,12 @@ package view;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class TelaInicialController extends Janela{
+public class TelaInicialController extends JanelaController {
     @FXML
     private Button botaoClientes;
 
@@ -47,6 +43,12 @@ public class TelaInicialController extends Janela{
     }
 
     @FXML
+    void onNovaVendaAction(ActionEvent event) throws IOException {
+        fecharJanela(botaoNovaVenda);
+        novoLayout("/NovaVenda.fxml", "Nova Venda");
+    }
+
+    @FXML
     void OnSairAction(ActionEvent event) {
         try {
             fecharJanela(botaoSair);
@@ -57,4 +59,11 @@ public class TelaInicialController extends Janela{
         }
     }
 
+    @FXML
+    public void onFornecedoresAction(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    public void onProdutosAction(ActionEvent actionEvent) {
+    }
 }

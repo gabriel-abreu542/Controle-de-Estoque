@@ -145,20 +145,20 @@
                   <HBox prefHeight="35.0" prefWidth="431.0" spacing="10.0">
                      <children>
                         <Label text="Forma de Pagamento:" />
-                        <ChoiceBox fx:id="formaPagamento" prefWidth="150.0" />
+                        <ChoiceBox fx:id="formaPagamento" prefHeight="25.0" prefWidth="103.0" />
                         <Label text="Total:">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label fx:id="totalCompra" text="R$0,00">
+                        <Label fx:id="labelTotal" prefHeight="27.0" prefWidth="134.0" text="R$0,00">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
                      </children>
                   </HBox>
-                  <Button mnemonicParsing="false" onAction="#onFinalizarCompraAction" prefHeight="35.0" prefWidth="155.0" text="Finalizar Compra">
+                  <Button fx:id="botaoFinalizar" mnemonicParsing="false" onAction="#onFinalizarTransacaoAction" prefHeight="35.0" prefWidth="155.0" text="Finalizar Compra">
                      <font>
                         <Font size="16.0" />
                      </font>

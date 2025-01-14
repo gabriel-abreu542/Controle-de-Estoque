@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import service.CadastroUsuarios;
@@ -15,7 +15,7 @@ import model.Usuario;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class LoginController extends Janela {
+public class LoginController extends JanelaController {
 
     @FXML
     private TextField nomeUsuario;
@@ -30,6 +30,13 @@ public class LoginController extends Janela {
 
     public void initialize() throws SQLException{
         cadastroUsuarios = new CadastroUsuarios();
+    }
+
+    @FXML
+    void enterLogin(KeyEvent event) throws IOException {
+        if(event.getCode().toString().equals("ENTER")){
+            onLoginAction(new ActionEvent());
+        }
     }
 
     @FXML

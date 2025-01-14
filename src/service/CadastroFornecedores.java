@@ -20,7 +20,7 @@ public class CadastroFornecedores extends Cadastro<Fornecedor>{
         this.dao = new FornecedorDAO(ConexaoDB.getConnection());
     }
 
-    public Fornecedor criarFornecedor(String nome, String cnpj, String tel, String email, String end){
+    public Fornecedor criarFornecedor(String cnpj, String nome, String tel, String email, String end){
         Fornecedor novo = new Fornecedor(cnpj, nome, tel, email, end);
         cadastrar(novo);
 
@@ -34,7 +34,7 @@ public class CadastroFornecedores extends Cadastro<Fornecedor>{
         }
         Fornecedor f = dao.buscarPorId(item.getId());
         if (f != null){
-            throw new IllegalArgumentException("Já existe um fornecedor com esse Id");
+            throw new IllegalArgumentException("Já existe um fornecedor com esse CNPJ");
         }
         return true;
     }

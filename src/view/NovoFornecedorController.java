@@ -11,32 +11,24 @@ import service.CadastroFornecedores;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class NovoFornecedorController extends  Janela{
+public class NovoFornecedorController extends JanelaController {
 
     @FXML
     private Button botaoAdicionar;
-
     @FXML
     private Button botaoVoltar;
-
     @FXML
     private TextField cnpjFornecedor;
-
     @FXML
     private TextField emailFornecedor;
-
     @FXML
     private TextField enderecoFornecedor;
-
     @FXML
     private TextField nomeFornecedor;
-
     @FXML
     private Label nomeUsuario;
-
     @FXML
     private TextField telefoneFornecedor;
-
     CadastroFornecedores cadastroFornecedores;
 
     public void initialize() throws SQLException {
@@ -44,16 +36,16 @@ public class NovoFornecedorController extends  Janela{
     }
 
     @FXML
-    void onAdicionarAction(ActionEvent event) {
+    void onAdicionarAction(ActionEvent event) throws IOException {
         Fornecedor f = cadastroFornecedores.criarFornecedor(
-                nomeFornecedor.getText(),
                 cnpjFornecedor.getText(),
+                nomeFornecedor.getText(),
                 telefoneFornecedor.getText(),
                 emailFornecedor.getText(),
                 enderecoFornecedor.getText()
         );
-        System.out.println("Adicionou novo fornecedor:");
-        System.out.println(f);
+        fecharJanela(botaoAdicionar);
+        novoLayout("/NovaCompra.fxml", "Nova Compra");
     }
 
     @FXML
