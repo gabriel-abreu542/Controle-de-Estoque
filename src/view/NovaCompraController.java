@@ -26,6 +26,8 @@ public class NovaCompraController extends Janela{
     @FXML
     private Button botaoAdicionar;
     @FXML
+    private Button botaoCancelar;
+    @FXML
     private Button botaoNovoFornecedor;
     @FXML
     private Button botaoNovoProduto;
@@ -40,12 +42,15 @@ public class NovaCompraController extends Janela{
     @FXML
     private ChoiceBox<String> formaPagamento;
     @FXML
+    private Label totalCompra;
+    @FXML
     private Label nomeUsuario;
     private CadastroCompra cadastroCompra;
     private Compra novaCompra;
     ArrayList<ItemTransacao> itensCompra;
     private ObservableList<String> optionsF;
     private ObservableList<String> optionsP;
+    private float total;
 
     public void initialize() throws SQLException {
         quantidade.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1));
@@ -72,8 +77,9 @@ public class NovaCompraController extends Janela{
         opcoesP.add("PIX");
         ObservableList<String> opcoesPag = FXCollections.observableArrayList(opcoesP);
         formaPagamento.setItems(opcoesPag);
-
         itensCompra = new ArrayList<ItemTransacao>();
+        ArrayList<Produto> produtos;
+        total = 0;
     }
 
     void setupAutoCompleteComboBox(ComboBox<String> comboBox, ObservableList<String> listaOriginal){
@@ -106,7 +112,7 @@ public class NovaCompraController extends Janela{
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Aviso");
             alert.setHeaderText("Não é possível alterar o fornecedor");
-            alert.setContentText("Para alterar o fornecedor, o carrinho de compras deve estar vazio.");
+            alert.setContentText("Compra cadastrada deve possuir apenas um fornecedor. esvazie o carrinho para alterar o fornecedor.");
             alert.showAndWait();
         } else {
             listaFornecedores.setDisable(false);
@@ -138,15 +144,23 @@ public class NovaCompraController extends Janela{
                 Label quant = new Label(String.valueOf(quantidade.getValue()));
                 Label nome = new Label(adicionado.getNome());
                 nome.setLayoutX(20);
-                Label precoU = new Label(String.valueOf(precoUnit.getValue().floatValue()));
-                Label subTotal = new Label(String.valueOf(item.getSomaParcial()));
+                Label precoU = new Label("R$" + String.valueOf(precoUnit.getValue().floatValue()));
+                Label subTotal = new Label("R$" + String.format("%.2f",item.getSomaParcial()) );
                 Button botaoRemover = new Button("X");
+
                 botaoRemover.setOnAction(e -> {
                     vBoxCarrinho.getChildren().remove(container);
-                    //itensCompra.remove();
+                    itensCompra.remove(item);
+
+                    total -= item.getSomaParcial();
+                    String atualizado = total == 0? "0,00" : String.format("%.2f",total);
+                    totalCompra.setText("R$" + atualizado);
                 });
+
                 itensCompra.add(item);
 
+                total += item.getSomaParcial();
+                totalCompra.setText("R$" + String.format("%.2f",total));
                 container.getChildren().addAll(quant, nome, precoU, subTotal, botaoRemover);
                 container.setLayoutX(30);
                 container.setSpacing(70);
@@ -159,13 +173,22 @@ public class NovaCompraController extends Janela{
     }
 
     @FXML
+    void onCancelarAction(ActionEvent event) throws IOException {
+        fecharJanela(botaoCancelar);
+        novoLayout("/TelaInicial.fxml", "TelaInicial");
+    }
+
+    @FXML
     void onNovoFornecedorAction(ActionEvent event) throws IOException {
         if(vBoxCarrinho.getChildren().isEmpty()){
             fecharJanela(botaoNovoFornecedor);
             novoLayout("/NovoFornecedor.fxml", "Novo Produto");
         }
-        System.out.println("Compra cadastrada deve possuir apenas um fornecedor");
-        //mostrar mensagem na tela usando Alert
+        Alert alertaFornecedor = new Alert(Alert.AlertType.WARNING);
+        alertaFornecedor.setTitle("Aviso");
+        alertaFornecedor.setHeaderText("Itens já foram adicionados ao carrinho");
+        alertaFornecedor.setContentText("Compra cadastrada deve possuir apenas um fornecedor. esvazie o carrinho para alterar o fornecedor");
+        alertaFornecedor.showAndWait();
 
     }
 

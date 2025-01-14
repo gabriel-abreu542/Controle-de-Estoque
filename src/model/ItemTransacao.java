@@ -8,7 +8,7 @@ public class ItemTransacao {
     public ItemTransacao(Produto produto, int quantidade, float precoUnitario) {
         this.produto = produto;
         this.quantidade = quantidade;
-        this.precoUnitario = precoUnitario%.2f;
+        this.precoUnitario = precoUnitario;
     }
 
     public Produto getProduto() { return produto; }
