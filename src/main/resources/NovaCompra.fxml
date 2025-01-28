@@ -114,7 +114,7 @@
       </AnchorPane>
    </center>
    <bottom>
-      <VBox fx:id="vBoxCarrinho" BorderPane.alignment="CENTER">
+      <VBox fx:id="vBoxCarrinhoCompra" BorderPane.alignment="CENTER">
          <children>
             <HBox spacing="40.0">
                <children>
@@ -131,7 +131,7 @@
             </HBox>
             <ScrollPane fx:id="carrinho" prefHeight="127.0" prefWidth="566.0">
                <content>
-                  <VBox fx:id="vBoxCarrinho" prefHeight="120.0" prefWidth="540.0" spacing="5.0" />
+                  <VBox fx:id="vBoxCarrinhoCompra" prefHeight="120.0" prefWidth="540.0" spacing="5.0" />
                </content>
                <VBox.margin>
                   <Insets left="75.0" />

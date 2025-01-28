@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.layout.VBox;
 import model.Venda;
 import service.CadastroClientes;
 import service.CadastroCompra;
@@ -17,7 +18,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class NovaVendaController extends NovaTransacaoController{
-
+    @FXML
+    private VBox vBoxCarrinhoVenda;
     @FXML
     private Button botaoNovoCliente;
     @FXML
@@ -39,9 +41,14 @@ public class NovaVendaController extends NovaTransacaoController{
         return new CadastroVenda();
     }
 
+    @Override
+    public VBox getVBoxCarrinho() {
+        return vBoxCarrinhoVenda;
+    }
+
     @FXML
     void mostrarClientes(ActionEvent event) {
-        if (!vBoxCarrinho.getChildren().isEmpty()) {
+        if (!vBoxCarrinhoVenda.getChildren().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Aviso");
             alert.setHeaderText("Não é possível alterar o cliente");
@@ -55,7 +62,7 @@ public class NovaVendaController extends NovaTransacaoController{
 
     @FXML
     void onNovoClienteAction(ActionEvent event) throws IOException {
-        if(vBoxCarrinho.getChildren().isEmpty()){
+        if(vBoxCarrinhoVenda.getChildren().isEmpty()){
             fecharJanela(botaoNovoCliente);
             novoLayout("/NovoCliente.fxml", "Novo Produto");
         }

@@ -132,7 +132,7 @@
             </HBox>
             <ScrollPane fx:id="carrinho" prefHeight="127.0" prefWidth="566.0">
                <content>
-                  <VBox fx:id="vBoxCarrinho" prefHeight="120.0" prefWidth="540.0" spacing="5.0" />
+                  <VBox fx:id="vBoxCarrinhoVenda" prefHeight="120.0" prefWidth="540.0" spacing="5.0" />
                </content>
                <padding>
                   <Insets left="60.0" />

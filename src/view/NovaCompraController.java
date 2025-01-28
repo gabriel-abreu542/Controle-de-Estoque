@@ -21,6 +21,8 @@ import java.util.ArrayList;
 
 public class NovaCompraController extends NovaTransacaoController {
     @FXML
+    private VBox vBoxCarrinhoCompra;
+    @FXML
     private Button botaoFinalizar;
     @FXML
     private Button botaoCancelar;
@@ -36,6 +38,7 @@ public class NovaCompraController extends NovaTransacaoController {
 
     public void initialize() throws SQLException {
         inicializacaoJanela();
+        vBoxCarrinhoCompra = new VBox();
         CadastroFornecedores cadastroFornecedores = new CadastroFornecedores();
         optionsF = FXCollections.observableArrayList(cadastroFornecedores.listarNomes());
         listaFornecedores.setItems(optionsF);
@@ -48,9 +51,13 @@ public class NovaCompraController extends NovaTransacaoController {
         return new CadastroCompra();
     }
 
+    public VBox getVBoxCarrinho(){
+        return vBoxCarrinhoCompra;
+    }
+
     @FXML
     void mostrarFornecedores(ActionEvent event) {
-        if (!vBoxCarrinho.getChildren().isEmpty()) {
+        if (!vBoxCarrinhoCompra.getChildren().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Aviso");
             alert.setHeaderText("Não é possível alterar o fornecedor");
@@ -63,7 +70,7 @@ public class NovaCompraController extends NovaTransacaoController {
 
     @FXML
     void onNovoFornecedorAction(ActionEvent event) throws IOException {
-        if(vBoxCarrinho.getChildren().isEmpty()){
+        if(vBoxCarrinhoCompra.getChildren().isEmpty()){
             fecharJanela(botaoNovoFornecedor);
             novoLayout("/NovoFornecedor.fxml", "Novo Produto");
         }

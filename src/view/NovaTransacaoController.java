@@ -9,7 +9,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.ItemTransacao;
 import model.Produto;
-import service.CadastroCompra;
 import service.CadastroProduto;
 import service.CadastroTransacao;
 
@@ -26,8 +25,6 @@ public abstract class NovaTransacaoController extends JanelaController{
     protected ScrollPane carrinho;
     @FXML
     protected Button botaoNovoProduto;
-    @FXML
-    protected VBox vBoxCarrinho;
     ArrayList<ItemTransacao> itensTransacao;
     @FXML
     protected Label nomeUsuario;
@@ -66,6 +63,7 @@ public abstract class NovaTransacaoController extends JanelaController{
         total = 0;
     }
 
+    public abstract VBox getVBoxCarrinho();
 
     void setUpFormasPagamento(){
         ArrayList<String> opcoesP = new ArrayList<>();
@@ -116,6 +114,7 @@ public abstract class NovaTransacaoController extends JanelaController{
     public abstract boolean camposPreenchidos();
 
     public boolean carrinhoVazio(){
+        VBox vBoxCarrinho = getVBoxCarrinho();
         if(vBoxCarrinho.getChildren().isEmpty()) {
             Alert alertaProdutos = new Alert(Alert.AlertType.WARNING);
             alertaProdutos.setTitle("Aviso");
@@ -131,7 +130,7 @@ public abstract class NovaTransacaoController extends JanelaController{
 
     @FXML
     void onAdicionarAction(ActionEvent event) throws SQLException {
-        System.out.println("AdicionarAction");
+        VBox vBoxCarrinho = getVBoxCarrinho();
         try{
             if(camposPreenchidos()){
                 Produto adicionado = cadastroProduto.buscarPorNome(listaProdutos.getValue());
