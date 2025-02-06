@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public abstract class NovaTransacaoController extends JanelaController{
+public abstract class NovaTransacaoController extends JanelaUsuarioController{
     @FXML
     protected Button botaoFinalizar;
     @FXML

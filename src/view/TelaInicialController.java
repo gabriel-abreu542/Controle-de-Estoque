@@ -2,12 +2,13 @@ package view;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 import java.io.IOException;
 
-public class TelaInicialController extends JanelaController {
+public class TelaInicialController extends JanelaUsuarioController {
     @FXML
     private Button botaoClientes;
 
@@ -30,22 +31,15 @@ public class TelaInicialController extends JanelaController {
     private Button botaoSair;
 
     @FXML
-    private Label nomeUsuario;
-
-    public void setNomeUsuario(String nome) {
-        nomeUsuario.setText(nome);
-    }
-
-    @FXML
     void onNovaCompraAction(ActionEvent event) throws IOException {
         fecharJanela(botaoNovaCompra);
-        novoLayout("/NovaCompra.fxml", "Nova Compra");
+        novoLayout("/NovaCompra.fxml", "Nova Compra", getNomeUsuario());
     }
 
     @FXML
     void onNovaVendaAction(ActionEvent event) throws IOException {
         fecharJanela(botaoNovaVenda);
-        novoLayout("/NovaVenda.fxml", "Nova Venda");
+        FXMLLoader loader = novoLayout("/NovaVenda.fxml", "Nova Venda");
     }
 
     @FXML

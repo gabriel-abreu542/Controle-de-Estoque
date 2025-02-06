@@ -19,7 +19,6 @@ public abstract class ObjetoDAO<T extends Cadastravel> {
     public ObjetoDAO(Connection conn){
         connection = conn;
         setSQL();
-        System.out.println("Dentro do DAO:\nBuscar: " + sqlBuscarNome);
     }
 
     public abstract void setSQL();
@@ -50,7 +49,7 @@ public abstract class ObjetoDAO<T extends Cadastravel> {
     public void criarTabela(){
         try (PreparedStatement stmt = connection.prepareStatement(sqlCriar)){
             stmt.execute();
-            System.out.println("Tabela '" + tabela + "' criada ou ja existe");
+//            System.out.println("Tabela '" + tabela + "' criada ou ja existe");
         }catch (SQLException e){
             System.out.println("sqlCriar: " + sqlCriar);
             System.out.println("Erro ao criar a tabela '" + tabela + "'");
