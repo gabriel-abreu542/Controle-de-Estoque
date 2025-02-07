@@ -4,7 +4,7 @@
 # Sobre o projeto
 Sistema de controle de estoque de loja, permitindo o cadastro de Produtos, Clientes, Fornecedores, Compras (Loja compra produtos de um fornecedor), Vendas (Loja vende produtos para um cliente). 
 
-#Tecnologias usadas
+# Tecnologias usadas
 Banco de dados: SQLite
 SceneBuilder e JavaFX para UI
 Organização dos pacotes do sistema:
