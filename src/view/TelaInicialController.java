@@ -25,6 +25,9 @@ public class TelaInicialController extends JanelaUsuarioController {
     private Button botaoNovaVenda;
 
     @FXML
+    private Button botaoFornecedores;
+
+    @FXML
     private Button botaoProdutos;
 
     @FXML
@@ -43,6 +46,12 @@ public class TelaInicialController extends JanelaUsuarioController {
     }
 
     @FXML
+    void onFornecedoresAction(ActionEvent event) throws IOException {
+        fecharJanela(botaoFornecedores);
+        FXMLLoader loader = novoLayout("/Fornecedores.fxml", "Fornecedores");
+    }
+
+    @FXML
     void OnSairAction(ActionEvent event) {
         try {
             fecharJanela(botaoSair);
@@ -51,10 +60,6 @@ public class TelaInicialController extends JanelaUsuarioController {
         } catch (IOException e) {
             System.out.println("Erro");
         }
-    }
-
-    @FXML
-    public void onFornecedoresAction(ActionEvent actionEvent) {
     }
 
     @FXML
